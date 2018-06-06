@@ -6,6 +6,44 @@ twitter client (golang)
 
 [releases](https://github.com/syui/twg/releases)
 
+
+バイナリをダウンロードして、パスが通っている場所に置きます。
+
+```sh
+# archlinux
+$ curl -SLO https://github.com/syui/twg/releases/download/pre-release/linux_amd64_twg
+$ mv linux_amd64_twg twg
+$ chmod +x twg
+$ echo $PATH
+$ mv twg /usr/local/bin
+```
+
+## use
+
+```sh
+# 認証がない場合、ブラウザを開きます。
+$ twg
+
+# timeline
+$ twg
+
+# help
+$ twg h
+
+# post
+$ twg p "send tweet"
+
+# user timeline
+$ twg u syui__
+$ twg u
+
+# stream
+$ twg s
+
+# oauth
+$ twg o
+```
+
 ## build
 
 `releases`版を使わないと、`consumer_key`などが必要になります。
