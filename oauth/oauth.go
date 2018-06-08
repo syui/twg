@@ -148,7 +148,7 @@ func GetUserIcon() {
 		panic(err)
 	}
 	json.Unmarshal(file, &o)
-	name := o.ScreenName
+	name := o.ScreenName + ".jpg"
 	dirIcon := filepath.Join(dir, name)
 	img, _ := os.Create(dirIcon)
 	defer img.Close()
