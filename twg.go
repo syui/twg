@@ -38,7 +38,11 @@ func main() {
 			Aliases: []string{"t"},
 			Usage:   "$ twg t, $ twg t 12",
 			Action:  func(c *cli.Context) error {
-				timeline.GetTimeLine(c)
+				if oauth.IconSettingCheck() == true {
+					icon.ItermGetTimeLine()
+				} else {
+					timeline.GetTimeLine(c)
+				}
 				return nil
 			},
 			Subcommands: cli.Commands{
@@ -67,7 +71,11 @@ func main() {
 			Aliases: []string{"u"},
 			Usage:   "$ twg u '$screen_name'",
 			Action:  func(c *cli.Context) error {
-				user.User(c)
+				if oauth.IconSettingCheck() == true {
+					icon.ItermUser(c)
+				} else {
+					user.User(c)
+				}
 				return nil
 			},
 			Subcommands: cli.Commands{
@@ -76,7 +84,7 @@ func main() {
 					Usage:   "$ twg u i (mac iterm)",
 					Aliases: []string{"i"},
 					Action:  func(c *cli.Context) error {
-						icon.ItermUser()
+						icon.ItermUser(c)
 						return nil
 					},
 				},
@@ -96,7 +104,11 @@ func main() {
 			Aliases: []string{"s"},
 			Usage:   "$ twg s",
 			Action: func(c *cli.Context) error {
-				oauth.RunStream()
+				if oauth.IconSettingCheck() == true {
+					icon.ItermRunStream()
+				} else {
+					oauth.RunStream()
+				}
 				return nil
 			},
 			Subcommands: cli.Commands{
@@ -111,6 +123,27 @@ func main() {
 				},
 			},
 		},
+		{
+			Name:    "setting",
+			Aliases: []string{"set"},
+			Usage:   "$ twg set true",
+			Action:  func(c *cli.Context) error {
+				oauth.IconSetting(c)
+				return nil
+			},
+			Subcommands: cli.Commands{
+				cli.Command{
+					Name:   "check",
+					Usage:   "$ twg set c",
+					Aliases: []string{"c"},
+					Action:  func(c *cli.Context) error {
+						oauth.IconSettingCheck()
+						return nil
+					},
+				},
+			},
+		},
+
 	}
 	app.Run(os.Args)
 }

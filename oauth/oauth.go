@@ -16,6 +16,8 @@ import (
 	"github.com/skratchdot/open-golang/open"
 	"github.com/mrjones/oauth"
 	"github.com/fatih/color"
+	"github.com/bitly/go-simplejson"
+	"github.com/urfave/cli"
 	//"github.com/hokaccha/go-prettyjson"
 )
 
@@ -81,6 +83,7 @@ type UserVerifyCredentials struct {
 	ProfileUseBackgroundImage      bool   `json:"profile_use_background_image"`
 	Protected                      bool   `json:"protected"`
 	ScreenName                     string `json:"screen_name"`
+	TwgIcon			       bool `json:"twg_icon"`
 	Status                         struct {
 		Contributors interface{} `json:"contributors"`
 		Coordinates  interface{} `json:"coordinates"`
@@ -117,6 +120,56 @@ type UserVerifyCredentials struct {
 	URL            string      `json:"url"`
 	UtcOffset      interface{} `json:"utc_offset"`
 	Verified       bool        `json:"verified"`
+}
+
+func IconSetting(c *cli.Context) error {
+	var o UserVerifyCredentials
+	s := c.Args().First()
+	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
+	dirUser := filepath.Join(dir, "verify.json")
+	file,err := ioutil.ReadFile(dirUser)
+	if err != nil {
+		fmt.Printf("$ twg --oauth", err)
+		os.Exit(1)
+	}
+	js, err := simplejson.NewJson(file)
+	if s == "true" {
+		fmt.Println("true : ", dirUser)
+		js.Set("twg_icon", true)
+	} else {
+		fmt.Println("delete key ->  twg_icon : ", dirUser)
+		js.Del("twg_icon")
+	}
+	w, err := os.Create(dirUser)
+	defer w.Close()
+	out, _ := js.EncodePretty()
+	w.Write(out)
+
+	files,err := ioutil.ReadFile(dirUser)
+	if err != nil {
+		panic(err)
+	}
+	json.Unmarshal(files, &o)
+	fmt.Println("check : ", o.TwgIcon)
+	return nil
+}
+
+func IconSettingCheck() (check bool){
+	var o UserVerifyCredentials
+	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
+	dirUser := filepath.Join(dir, "verify.json")
+	file,err := ioutil.ReadFile(dirUser)
+	if err != nil {
+		fmt.Printf("$ twg --oauth", err)
+		os.Exit(1)
+	}
+	json.Unmarshal(file, &o)
+	check = o.TwgIcon
+	if check == true {
+		return check
+	} else {
+		return
+	}
 }
 
 func GetOAuthApi() *anaconda.TwitterApi {

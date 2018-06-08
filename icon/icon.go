@@ -14,6 +14,7 @@ import (
 	"github.com/martinlindhe/imgcat/lib"
 	"github.com/fatih/color"
 	"github.com/ChimeraCoder/anaconda"
+	"github.com/urfave/cli"
 )
 
 func ViewImage() {
@@ -119,8 +120,9 @@ func ItermRunStream() {
 	return
 }
 
-func ItermUser() {
-	name := GetUserName()
+func ItermUser(c *cli.Context) error {
+	cyan := color.New(color.FgCyan).SprintFunc()
+	name := c.Args().First()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	v.Set("screen_name",name)
@@ -130,8 +132,12 @@ func ItermUser() {
 	  panic(err)
 	}
 	for _, tweet := range tweets {
-		if name == tweet.User.ScreenName { ViewImage() }
-		fmt.Println(tweet.User.ScreenName, tweet.FullText)
+		name := tweet.User.ScreenName
+		file := name + ".jpg"
+		url := tweet.User.ProfileImageURL
+		GetImage(url, file)
+		ViewImageUser(file)
+		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
 	}
-	return
+	return nil
 }
