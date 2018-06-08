@@ -70,6 +70,30 @@ $ twg t i
 
 `tmux`を使用している場合は、うまく表示できないことがあります。もし端末が乱れた場合は、`reset`コマンドで修正できます。
 
+## test func 2
+
+設定ファイルを作成して、適時、設定を読み込みます。
+
+現時点では、作成するユーザーファイルに追記する形で運用しています。
+
+`~/.config/twg/verify.json`
+
+設定は、上記にある`iTerm`でのみ有効なアイコン表示の設定です。以下、機能のON/OFFの切替方法と使い方を紹介します。有効にするとオプションの数を少なくできます。
+
+```sh
+# 有効にする
+$ twg set true
+$ twg t
+
+# 無効にする
+$ twg set false
+$ twg t
+
+# チェックする
+$ twg set c
+iterm-mode/check false
+```
+
 ## link
 
 [https://github.com/syui/twg](https://github.com/syui/twg)

@@ -172,6 +172,17 @@ func IconSettingCheck() (check bool){
 	}
 }
 
+func IconSettingCheckCommand() (check bool){
+	check = IconSettingCheck()
+	if check == true {
+		fmt.Println("iterm-mode/check : ", check)
+		return check
+	} else {
+		fmt.Println("iterm-mode/check : false")
+		return
+	}
+}
+
 func GetOAuthApi() *anaconda.TwitterApi {
 	var o Oauth
 	anaconda.SetConsumerKey(ckey)

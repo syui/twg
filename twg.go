@@ -137,7 +137,7 @@ func main() {
 					Usage:   "$ twg set c",
 					Aliases: []string{"c"},
 					Action:  func(c *cli.Context) error {
-						oauth.IconSettingCheck()
+						oauth.IconSettingCheckCommand()
 						return nil
 					},
 				},
