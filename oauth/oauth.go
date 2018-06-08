@@ -119,8 +119,6 @@ type UserVerifyCredentials struct {
 	Verified       bool        `json:"verified"`
 }
 
-
-
 func GetOAuthApi() *anaconda.TwitterApi {
 	var o Oauth
 	anaconda.SetConsumerKey(ckey)
@@ -145,22 +143,19 @@ func GetUserIcon() {
 	var o UserVerifyCredentials
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
 	dirUser := filepath.Join(dir, "verify.json")
-	dirIcon := filepath.Join(dir, "user.jpg")
 	file,err := ioutil.ReadFile(dirUser)
 	if err != nil {
 		panic(err)
 	}
 	json.Unmarshal(file, &o)
-
-	//fmt.Printf("download user icon : %s", o.ProfileImageURL)
+	name := o.ScreenName
+	dirIcon := filepath.Join(dir, name)
 	img, _ := os.Create(dirIcon)
 	defer img.Close()
 	url := o.ProfileImageURL
 	resp, _ := http.Get(url)
 	defer resp.Body.Close()
 	io.Copy(img, resp.Body)
-	//b, _ := io.Copy(img, resp.Body)
-	//fmt.Println("/ size: ", b)
 	f, _ := os.Open(dirIcon)
 	buf := new(bytes.Buffer)
 	io.Copy(buf, f)
@@ -205,12 +200,7 @@ func RunOAuth() {
 	if err != nil {
 		panic(err)
 	}
-	//fmt.Printf("\nYour token is %s\n", outputJSON)
-	//jat, _ := prettyjson.Marshal(accessToken)
-	//fmt.Printf("\nYour token is %s\n", jat)
 	ioutil.WriteFile(dirConf, outputJSON, os.ModePerm)
-
-	// write : ~/.config/twg/profile.json
 	client, err := c.MakeHttpClient(accessToken)
 	if err != nil {
 		log.Fatal(err)
@@ -223,7 +213,6 @@ func RunOAuth() {
 	defer resp.Body.Close()
 
 	bit, err := ioutil.ReadAll(resp.Body)
-	//fmt.Println(string(bit))
 	ioutil.WriteFile(dirUser, bit, os.ModePerm)
 	GetUserIcon()
 	return
