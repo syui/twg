@@ -10,6 +10,7 @@ func GetTimeLine() {
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	v.Set("count","10")
+	v.Set("tweet_mode", "extended")
 	tweets, err := api.GetHomeTimeline(v)
 	if err != nil {
 	  panic(err)

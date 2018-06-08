@@ -124,6 +124,7 @@ func GetOAuthTimeLine() {
 	api := GetOAuthApi()
 	v := url.Values{}
 	v.Set("count","10")
+	v.Set("tweet_mode", "extended")
 	tweets, err := api.GetHomeTimeline(v)
 	if err != nil {
 	  panic(err)
@@ -139,6 +140,7 @@ func RunStream() {
 	api := GetOAuthApi()
 	v := url.Values{}
 	v.Set("count","1")
+	v.Set("tweet_mode", "extended")
 	tweets, err := api.GetHomeTimeline(v)
 	if err != nil {
 	  panic(err)
