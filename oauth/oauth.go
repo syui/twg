@@ -100,11 +100,11 @@ func GetOAuthTimeLine() {
 	v.Set("count","10")
 	v.Set("tweet_mode", "extended")
 	tweets, err := api.GetHomeTimeline(v)
+	cyan := color.New(color.FgCyan).SprintFunc()
 	if err != nil {
 	  panic(err)
 	}
 	for _, tweet := range tweets {
-		cyan := color.New(color.FgCyan).SprintFunc()
 		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
 	}
 
