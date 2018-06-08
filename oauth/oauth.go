@@ -18,6 +18,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/bitly/go-simplejson"
 	"github.com/urfave/cli"
+	//"gitlab.com/syui/twg/icon"
 	//"github.com/hokaccha/go-prettyjson"
 )
 
@@ -130,7 +131,7 @@ func IconSetting(c *cli.Context) error {
 	file,err := ioutil.ReadFile(dirUser)
 	if err != nil {
 		fmt.Printf("$ twg --oauth", err)
-		os.Exit(1)
+		RunOAuth()
 	}
 	js, err := simplejson.NewJson(file)
 	if s == "true" {
@@ -161,6 +162,7 @@ func IconSettingCheck() (check bool){
 	file,err := ioutil.ReadFile(dirUser)
 	if err != nil {
 		fmt.Printf("$ twg --oauth", err)
+		RunOAuth()
 		os.Exit(1)
 	}
 	json.Unmarshal(file, &o)
@@ -345,4 +347,3 @@ func FirstRunOAuth() {
 	}
 	return
 }
-

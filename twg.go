@@ -13,7 +13,12 @@ import (
 
 func Action(c *cli.Context) {
 	if c.Args().Get(0) == "" {
-		oauth.FirstRunOAuth()
+		if oauth.IconSettingCheck() == true {
+			icon.FirstItermCommand()
+			//icon.ItermGetTimeLine()
+		} else {
+			oauth.FirstRunOAuth()
+		}
 		return
 	}
 	return
@@ -45,17 +50,6 @@ func main() {
 				}
 				return nil
 			},
-			Subcommands: cli.Commands{
-				cli.Command{
-					Name:   "icon",
-					Usage:   "$ twg t i (mac iterm)",
-					Aliases: []string{"i"},
-					Action:  func(c *cli.Context) error {
-						icon.ItermGetTimeLine()
-						return nil
-					},
-				},
-			},
 		},
 		{
 			Name:    "post",
@@ -77,17 +71,6 @@ func main() {
 					user.User(c)
 				}
 				return nil
-			},
-			Subcommands: cli.Commands{
-				cli.Command{
-					Name:   "icon",
-					Usage:   "$ twg u i (mac iterm)",
-					Aliases: []string{"i"},
-					Action:  func(c *cli.Context) error {
-						icon.ItermUser(c)
-						return nil
-					},
-				},
 			},
 		},
 		{
@@ -111,22 +94,11 @@ func main() {
 				}
 				return nil
 			},
-			Subcommands: cli.Commands{
-				cli.Command{
-					Name:   "icon",
-					Usage:   "$ twg s i (mac iterm)",
-					Aliases: []string{"i"},
-					Action:  func(c *cli.Context) error {
-						icon.ItermRunStream()
-						return nil
-					},
-				},
-			},
 		},
 		{
 			Name:    "setting",
 			Aliases: []string{"set"},
-			Usage:   "$ twg set true",
+			Usage:   "$ twg set true/false",
 			Action:  func(c *cli.Context) error {
 				oauth.IconSetting(c)
 				return nil

@@ -141,3 +141,24 @@ func ItermUser(c *cli.Context) error {
 	}
 	return nil
 }
+
+func CheckOAuth() (check bool){
+	//var o oauth.Oauth
+	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
+	dirConf := filepath.Join(dir, "user.json")
+	if b := Exists(dirConf); b {
+		check = true
+	} else {
+		check = false
+	}
+	return check
+}
+
+func FirstItermCommand() {
+	check := CheckOAuth()
+	if check == true {
+		ItermGetTimeLine()
+	} else {
+		oauth.RunOAuth()
+	}
+}
