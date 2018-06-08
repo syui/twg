@@ -33,13 +33,13 @@ func GetOAuthApi() *anaconda.TwitterApi {
 	anaconda.SetConsumerSecret(cskey)
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
 	dirConf := filepath.Join(dir, "user.json")
-	if e := os.MkdirAll(dir, os.ModePerm); e != nil {
-		panic(e)
+	_, err := os.Stat(dirConf)
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		panic(err)
 	}
-	_, e := os.Stat(dirConf)
-	file,e := ioutil.ReadFile(dirConf)
-	if e != nil {
-		fmt.Printf("$ twg --oauth", e)
+	file,err := ioutil.ReadFile(dirConf)
+	if err != nil {
+		fmt.Printf("$ twg --oauth", err)
 		os.Exit(1)
 	}
 	json.Unmarshal(file, &o)
@@ -48,16 +48,15 @@ func GetOAuthApi() *anaconda.TwitterApi {
 }
 
 func RunOAuth() {
-	var o Oauth
 	anaconda.SetConsumerKey(ckey)
 	anaconda.SetConsumerSecret(cskey)
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
 	dirConf := filepath.Join(dir, "user.json")
 	//dirTweet := filepath.Join(dir, "tweet.json")
-	if e := os.MkdirAll(dir, os.ModePerm); e != nil {
-		panic(e)
+	_, err := os.Stat(dirConf)
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		panic(err)
 	}
-	_, e := os.Stat(dirConf)
 	flag.Parse()
 	c := oauth.NewConsumer(
 		string(ckey),
@@ -83,40 +82,14 @@ func RunOAuth() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	outputJSON, e := json.Marshal(&accessToken)
-	if e != nil {
-		panic(e)
+	outputJSON, err := json.Marshal(&accessToken)
+	if err != nil {
+		panic(err)
 	}
 	fmt.Printf("\nYour token is %s\n", outputJSON)
 	jat, _ := prettyjson.Marshal(accessToken)
 	fmt.Printf("\nYour token is %s\n", jat)
 	ioutil.WriteFile(dirConf, outputJSON, os.ModePerm)
-
-	file,e := ioutil.ReadFile(dirConf)
-	json.Unmarshal(file, &o)
-	if e != nil {
-		fmt.Printf("$ twg --oauth")
-		os.Exit(1)
-	}
-
-	//client, err := c.MakeHttpClient(accessToken)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-
-	//response, err := client.Get(
-	//	//"https://api.twitter.com/1.1/account/verify_credentials.json")
-	//	"https://api.twitter.com/1.1/statuses/home_timeline.json?count=1")
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//defer response.Body.Close()
-	//bits, err := ioutil.ReadAll(response.Body)
-	//fmt.Println("The newest item in your home timeline is: " + string(bits))
-	//jp, _ := prettyjson.Marshal(string(bits))
-	//ioutil.WriteFile(dirTweet, jp, os.ModePerm)
-	//filetweet,e := ioutil.ReadFile(dirTweet)
-	//json.Unmarshal(filetweet, &o)
 	return
 }
 
@@ -173,13 +146,16 @@ func FirstRunOAuth() {
 	var o Oauth
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
 	dirConf := filepath.Join(dir, "user.json")
-	if e := os.MkdirAll(dir, os.ModePerm); e != nil {
-		panic(e)
+	_, err := os.Stat(dirConf)
+	if err := os.MkdirAll(dir, os.ModePerm); err!= nil {
+		panic(err)
 	}
-	_, e := os.Stat(dirConf)
-	file,e := ioutil.ReadFile(dirConf)
+	file,err := ioutil.ReadFile(dirConf)
+	if err != nil {
+		panic(err)
+	}
 	json.Unmarshal(file, &o)
-	if e != nil {
+	if err != nil {
 		RunOAuth()
 	} else {
 		fmt.Printf("login: %s\n", o.AdditionalData.ScreenName)
