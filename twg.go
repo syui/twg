@@ -70,6 +70,17 @@ func main() {
 				user.User(c)
 				return nil
 			},
+			Subcommands: cli.Commands{
+				cli.Command{
+					Name:   "icon",
+					Usage:   "$ twg u i (mac iterm)",
+					Aliases: []string{"i"},
+					Action:  func(c *cli.Context) error {
+						icon.ItermUser()
+						return nil
+					},
+				},
+			},
 		},
 		{
 			Name:    "ouath",

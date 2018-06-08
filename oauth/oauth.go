@@ -223,7 +223,7 @@ func RunOAuth() {
 	defer resp.Body.Close()
 
 	bit, err := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(bit))
+	//fmt.Println(string(bit))
 	ioutil.WriteFile(dirUser, bit, os.ModePerm)
 	GetUserIcon()
 	return
