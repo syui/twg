@@ -22,7 +22,7 @@ func App() *cli.App {
 	app := cli.NewApp()
 	app.Name = "twg"
 	app.Usage = "$ twg"
-	app.Version = "0.1.2"
+	app.Version = "0.1.3"
 	app.Author = "syui"
 	return app
 }
@@ -34,7 +34,7 @@ func main() {
 		{
 			Name:    "timeline",
 			Aliases: []string{"t"},
-			Usage:   "twg t",
+			Usage:   "$ twg t, $ twg t 12",
 			Action:  func(c *cli.Context) error {
 				timeline.GetTimeLine(c)
 				//oauth.GetOAuthTimeLine()
@@ -44,7 +44,7 @@ func main() {
 		{
 			Name:    "post",
 			Aliases: []string{"p"},
-			Usage:   "twg p 'message'",
+			Usage:   "$ twg p 'message'",
 			Action: func(c *cli.Context) error {
 				post.Post(c)
 				return nil
@@ -53,7 +53,7 @@ func main() {
 		{
 			Name:    "user",
 			Aliases: []string{"u"},
-			Usage:   "twg u '$screen_name'",
+			Usage:   "$ twg u '$screen_name'",
 			Action:  func(c *cli.Context) error {
 				user.User(c)
 				return nil
@@ -62,7 +62,7 @@ func main() {
 		{
 			Name:    "ouath",
 			Aliases: []string{"o"},
-			Usage:   "twg oauth, ~/$USER/.config/twg",
+			Usage:   "$ twg oauth, ~/$USER/.config/twg",
 			Action: func(c *cli.Context) error {
 				oauth.RunOAuth()
 				return nil
@@ -71,7 +71,7 @@ func main() {
 		{
 			Name:    "stream",
 			Aliases: []string{"s"},
-			Usage:   "twg s",
+			Usage:   "$ twg s",
 			Action: func(c *cli.Context) error {
 				oauth.RunStream()
 				return nil
