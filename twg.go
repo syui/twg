@@ -28,7 +28,7 @@ func App() *cli.App {
 	app := cli.NewApp()
 	app.Name = "twg"
 	app.Usage = "$ twg"
-	app.Version = "0.1.6"
+	app.Version = "0.1.7"
 	app.Author = "syui"
 	return app
 }
