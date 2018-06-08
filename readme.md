@@ -60,6 +60,14 @@ $ export CSKEY=`cat ./config.json| jq -r ".consumer_secret"`
 $ go build -ldflags="-X gitlab.com/syui/twg/oauth.ckey=$CKEY -X gitlab.com/syui/twg/oauth.cskey=$CSKEY"
 ```
 
+## link
+
+[https://github.com/syui/twg](https://github.com/syui/twg)
+
+[https://gitlab.com/syui/twg](https://gitlab.com/syui/twg)
+
+[https://aur.archlinux.org/packages/twg](https://aur.archlinux.org/packages/twg)
+
 ## ref
 
 https://github.com/mrjones/oauth/blob/master/examples/twitter/twitter.go
