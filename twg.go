@@ -15,7 +15,6 @@ func Action(c *cli.Context) {
 	if c.Args().Get(0) == "" {
 		if oauth.IconSettingCheck() == true {
 			icon.FirstItermCommand()
-			//icon.ItermGetTimeLine()
 		} else {
 			oauth.FirstRunOAuth()
 		}

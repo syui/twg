@@ -130,7 +130,7 @@ func IconSetting(c *cli.Context) error {
 	dirUser := filepath.Join(dir, "verify.json")
 	file,err := ioutil.ReadFile(dirUser)
 	if err != nil {
-		fmt.Printf("$ twg --oauth", err)
+		fmt.Printf("$ twg --oauth")
 		RunOAuth()
 	}
 	js, err := simplejson.NewJson(file)
@@ -161,9 +161,8 @@ func IconSettingCheck() (check bool){
 	dirUser := filepath.Join(dir, "verify.json")
 	file,err := ioutil.ReadFile(dirUser)
 	if err != nil {
-		fmt.Printf("$ twg --oauth", err)
+		fmt.Printf("$ twg --oauth")
 		RunOAuth()
-		os.Exit(1)
 	}
 	json.Unmarshal(file, &o)
 	check = o.TwgIcon
@@ -197,8 +196,7 @@ func GetOAuthApi() *anaconda.TwitterApi {
 	}
 	file,err := ioutil.ReadFile(dirConf)
 	if err != nil {
-		fmt.Printf("$ twg --oauth", err)
-		os.Exit(1)
+		fmt.Printf("$ twg --oauth")
 	}
 	json.Unmarshal(file, &o)
 	api := anaconda.NewTwitterApi(o.Token, o.Secret)
