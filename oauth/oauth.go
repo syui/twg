@@ -112,15 +112,7 @@ func GetOAuthTimeLine() {
 func RunStream() {
 	api := GetOAuthApi()
 	v := url.Values{}
-	v.Set("count","1")
 	v.Set("tweet_mode", "extended")
-	tweets, err := api.GetHomeTimeline(v)
-	if err != nil {
-	  panic(err)
-	}
-	for _, tweet := range tweets {
-		fmt.Println(tweet.User.ScreenName, tweet.FullText)
-	}
 	s := api.UserStream(v)
 	for t := range s.C {
 	  switch v := t.(type) {

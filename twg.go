@@ -36,7 +36,7 @@ func main() {
 			Aliases: []string{"t"},
 			Usage:   "twg t",
 			Action:  func(c *cli.Context) error {
-				timeline.GetTimeLine()
+				timeline.GetTimeLine(c)
 				//oauth.GetOAuthTimeLine()
 				return nil
 			},
