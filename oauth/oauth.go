@@ -13,6 +13,7 @@ import (
 	"github.com/skratchdot/open-golang/open"
 	"github.com/hokaccha/go-prettyjson"
 	"github.com/mrjones/oauth"
+	"github.com/fatih/color"
 )
 
 var ckey string
@@ -103,7 +104,8 @@ func GetOAuthTimeLine() {
 	  panic(err)
 	}
 	for _, tweet := range tweets {
-		fmt.Println(tweet.User.ScreenName, tweet.FullText)
+		cyan := color.New(color.FgCyan).SprintFunc()
+		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
 	}
 
 	return
@@ -114,20 +116,22 @@ func RunStream() {
 	v := url.Values{}
 	v.Set("tweet_mode", "extended")
 	s := api.UserStream(v)
+	cyan := color.New(color.FgCyan).SprintFunc()
+        yellow := color.New(color.FgYellow).SprintFunc()
 	for t := range s.C {
 	  switch v := t.(type) {
 	  case anaconda.Tweet:
-	    fmt.Printf("%-15s: %s\n", v.User.ScreenName, v.FullText)
+	    fmt.Println(cyan(v.User.ScreenName), v.FullText)
 	  case anaconda.EventTweet:
 	    switch v.Event.Event {
 	    case "favorite":
 	      sn := v.Source.ScreenName
-	      tw := v.TargetObject.Text
-	      fmt.Printf("Favorited by %-15s: %s\n", sn, tw)
+	      tw := v.TargetObject.FullText
+	      fmt.Printf("Favorited by %-15s: %s\n", yellow(sn), tw)
 	    case "unfavorite":
 	      sn := v.Source.ScreenName
-	      tw := v.TargetObject.Text
-	      fmt.Printf("UnFavorited by %-15s: %s\n", sn, tw)
+	      tw := v.TargetObject.FullText
+	      fmt.Printf("UnFavorited by %-15s: %s\n", yellow(sn), tw)
 	    }
 	  }
 	}
@@ -147,7 +151,8 @@ func FirstRunOAuth() {
 		RunOAuth()
 	} else {
 		json.Unmarshal(file, &o)
-		fmt.Printf("login: %s\n", o.AdditionalData.ScreenName)
+		red := color.New(color.FgRed).SprintFunc()
+		fmt.Printf("login: %s\n", red(o.AdditionalData.ScreenName))
 		GetOAuthTimeLine()
 	}
 	return
