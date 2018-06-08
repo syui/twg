@@ -7,6 +7,7 @@ import (
 	"gitlab.com/syui/twg/post"
 	"gitlab.com/syui/twg/user"
 	"gitlab.com/syui/twg/timeline"
+	"gitlab.com/syui/twg/icon"
 	_ "reflect"
 )
 
@@ -28,6 +29,7 @@ func App() *cli.App {
 }
 
 func main() {
+
 	app := App()
 	app.Action = Action
 	app.Commands = []cli.Command{
@@ -37,8 +39,18 @@ func main() {
 			Usage:   "$ twg t, $ twg t 12",
 			Action:  func(c *cli.Context) error {
 				timeline.GetTimeLine(c)
-				//oauth.GetOAuthTimeLine()
 				return nil
+			},
+			Subcommands: cli.Commands{
+				cli.Command{
+					Name:   "icon",
+					Usage:   "$ twg t i (mac iterm)",
+					Aliases: []string{"i"},
+					Action:  func(c *cli.Context) error {
+						icon.ItermGetTimeLine()
+						return nil
+					},
+				},
 			},
 		},
 		{
@@ -75,6 +87,17 @@ func main() {
 			Action: func(c *cli.Context) error {
 				oauth.RunStream()
 				return nil
+			},
+			Subcommands: cli.Commands{
+				cli.Command{
+					Name:   "icon",
+					Usage:   "$ twg s i (mac iterm)",
+					Aliases: []string{"i"},
+					Action:  func(c *cli.Context) error {
+						icon.ItermRunStream()
+						return nil
+					},
+				},
 			},
 		},
 	}

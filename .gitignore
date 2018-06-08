@@ -4,3 +4,4 @@ twg
 .DS_Store
 build.sh
 test/config.json
+user.json
