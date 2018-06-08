@@ -152,12 +152,9 @@ func FirstRunOAuth() {
 	}
 	file,err := ioutil.ReadFile(dirConf)
 	if err != nil {
-		panic(err)
-	}
-	json.Unmarshal(file, &o)
-	if err != nil {
 		RunOAuth()
 	} else {
+		json.Unmarshal(file, &o)
 		fmt.Printf("login: %s\n", o.AdditionalData.ScreenName)
 		GetOAuthTimeLine()
 	}
