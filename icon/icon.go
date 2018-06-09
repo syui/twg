@@ -4,26 +4,24 @@ import (
 	"bytes"
 	"io"
 	"os"
+	"log"
 	"fmt"
 	"net/url"
-	"path/filepath"
-	"io/ioutil"
-	"encoding/json"
 	"net/http"
+	"io/ioutil"
+	"path/filepath"
+	"encoding/json"
+	"image"
+	"image/png"
+	"image/jpeg"
 	"gitlab.com/syui/twg/oauth"
 	"github.com/martinlindhe/imgcat/lib"
 	"github.com/fatih/color"
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/urfave/cli"
+	"github.com/nfnt/resize"
 )
 
-func ViewImage() {
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	f := filepath.Join(dir, "user.jpg")
-	file, _ := os.Open(f)
-	imgcat.Cat(file, os.Stdout)
-	return
-}
 
 func ViewImageUser(filename string) {
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
@@ -38,7 +36,31 @@ func Exists(filename string) bool {
 	return err == nil
 }
 
-func GetImage(url string, file string) {
+func ImageResize(dir string) {
+	pos := filepath.Ext(dir)
+	file, err := os.Open(dir)
+	if err != nil {
+		log.Fatal(err)
+	}
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return
+	}
+	file.Close()
+	m := resize.Resize(20, 20, img, resize.Lanczos3)
+	out, err := os.Create(dir)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer out.Close()
+	if pos == ".png" {
+		png.Encode(out, m)
+	} else if pos == ".jpg" {
+		jpeg.Encode(out, m, nil)
+	}
+}
+
+func GetImage(url string, file string){
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
 	dirIcon := filepath.Join(dir, file)
 	if b := Exists(dirIcon); b {
@@ -46,12 +68,15 @@ func GetImage(url string, file string) {
 	}
 	img, _ := os.Create(dirIcon)
 	defer img.Close()
+	fmt.Println(url)
 	resp, _ := http.Get(url)
 	defer resp.Body.Close()
 	io.Copy(img, resp.Body)
 	f, _ := os.Open(dirIcon)
 	buf := new(bytes.Buffer)
 	io.Copy(buf, f)
+	ImageResize(dirIcon)
+	return
 }
 
 func GetUserName() (name string){
@@ -79,8 +104,9 @@ func ItermGetTimeLine() {
 	}
 	for _, tweet := range tweets {
 		name := tweet.User.ScreenName
-		file := name + ".jpg"
 		url := tweet.User.ProfileImageURL
+		pos := filepath.Ext(url)
+		file := name + pos
 		GetImage(url, file)
 		ViewImageUser(file)
 		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
@@ -99,8 +125,9 @@ func ItermRunStream() {
 	  switch v := t.(type) {
 	  case anaconda.Tweet:
 		name := v.User.ScreenName
-		file := name + ".jpg"
 		url := v.User.ProfileImageURL
+		pos := filepath.Ext(url)
+		file := name + pos
 		GetImage(url, file)
 		ViewImageUser(file)
 		fmt.Println(cyan(v.User.ScreenName), v.FullText)
@@ -133,8 +160,9 @@ func ItermUser(c *cli.Context) error {
 	}
 	for _, tweet := range tweets {
 		name := tweet.User.ScreenName
-		file := name + ".jpg"
 		url := tweet.User.ProfileImageURL
+		pos := filepath.Ext(url)
+		file := name + pos
 		GetImage(url, file)
 		ViewImageUser(file)
 		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
