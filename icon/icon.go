@@ -68,7 +68,7 @@ func GetImage(url string, file string){
 	}
 	img, _ := os.Create(dirIcon)
 	defer img.Close()
-	fmt.Println(url)
+	//fmt.Println(url)
 	resp, _ := http.Get(url)
 	defer resp.Body.Close()
 	io.Copy(img, resp.Body)
