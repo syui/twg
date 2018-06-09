@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"net/url"
 	"net/http"
-	"io/ioutil"
 	"path/filepath"
-	"encoding/json"
 	"image"
+	"image/gif"
 	"image/png"
 	"image/jpeg"
 	"gitlab.com/syui/twg/oauth"
@@ -21,7 +20,6 @@ import (
 	"github.com/urfave/cli"
 	"github.com/nfnt/resize"
 )
-
 
 func ViewImageUser(filename string) {
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
@@ -55,8 +53,10 @@ func ImageResize(dir string) {
 	defer out.Close()
 	if pos == ".png" {
 		png.Encode(out, m)
-	} else if pos == ".jpg" {
+	} else if pos == ".jpg" || pos == ".jpeg" {
 		jpeg.Encode(out, m, nil)
+	} else if pos == ".gif" {
+		gif.Encode(out, m, nil)
 	}
 }
 
@@ -68,7 +68,7 @@ func GetImage(url string, file string){
 	}
 	img, _ := os.Create(dirIcon)
 	defer img.Close()
-	//fmt.Println(url)
+	fmt.Println(url)
 	resp, _ := http.Get(url)
 	defer resp.Body.Close()
 	io.Copy(img, resp.Body)
@@ -79,20 +79,8 @@ func GetImage(url string, file string){
 	return
 }
 
-func GetUserName() (name string){
-	var o oauth.UserVerifyCredentials
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	dirUser := filepath.Join(dir, "verify.json")
-	file,err := ioutil.ReadFile(dirUser)
-	if err != nil {
-		panic(err)
-	}
-	json.Unmarshal(file, &o)
-	name = o.ScreenName
-	return
-}
-
 func ItermGetTimeLine() {
+	blue := color.New(color.FgBlue).SprintFunc()
 	cyan := color.New(color.FgCyan).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
@@ -110,6 +98,10 @@ func ItermGetTimeLine() {
 		GetImage(url, file)
 		ViewImageUser(file)
 		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		tweeturl := tweet.Entities.Urls
+		if  len(tweeturl) != 0 {
+			fmt.Println(blue(tweeturl[0].Expanded_url))
+		}
 	}
 	return
 }
@@ -198,7 +190,6 @@ func ItermUser(c *cli.Context) error {
 }
 
 func CheckOAuth() (check bool){
-	//var o oauth.Oauth
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
 	dirConf := filepath.Join(dir, "user.json")
 	if b := Exists(dirConf); b {
