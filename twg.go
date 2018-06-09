@@ -43,7 +43,7 @@ func main() {
 			Usage:   "$ twg t, $ twg t 12",
 			Action:  func(c *cli.Context) error {
 				if oauth.IconSettingCheck() == true {
-					icon.ItermGetTimeLine()
+					icon.ItermGetTimeLineOption(c)
 				} else {
 					timeline.GetTimeLine(c)
 				}

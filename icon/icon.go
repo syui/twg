@@ -114,6 +114,33 @@ func ItermGetTimeLine() {
 	return
 }
 
+func ItermGetTimeLineOption(c *cli.Context) error {
+	cyan := color.New(color.FgCyan).SprintFunc()
+	api := oauth.GetOAuthApi()
+	v := url.Values{}
+	s := c.Args().First()
+	if len(c.Args()) > 0 {
+		v.Set("count",s)
+	} else {
+		v.Set("count","10")
+	}
+	v.Set("tweet_mode", "extended")
+	tweets, err := api.GetHomeTimeline(v)
+	if err != nil {
+	  panic(err)
+	}
+	for _, tweet := range tweets {
+		name := tweet.User.ScreenName
+		url := tweet.User.ProfileImageURL
+		pos := filepath.Ext(url)
+		file := name + pos
+		GetImage(url, file)
+		ViewImageUser(file)
+		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+	}
+	return nil
+}
+
 func ItermRunStream() {
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
