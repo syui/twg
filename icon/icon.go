@@ -22,7 +22,7 @@ import (
 )
 
 func ViewImageUser(filename string) {
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
+	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg", "img")
 	f := filepath.Join(dir, filename)
 	file, _ := os.Open(f)
 	imgcat.Cat(file, os.Stdout)
@@ -61,7 +61,10 @@ func ImageResize(dir string) {
 }
 
 func GetImage(url string, file string){
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
+	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg", "img")
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		panic(err)
+	}
 	dirIcon := filepath.Join(dir, file)
 	if b := Exists(dirIcon); b {
 		return

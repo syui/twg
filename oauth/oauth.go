@@ -133,7 +133,7 @@ func IconSetting(c *cli.Context) error {
 	if s == "true" {
 		fmt.Println("true : ", dirUser)
 		js.Set("twg_icon", true)
-	} else {
+	} else if s == "false" || s == "f" {
 		fmt.Println("delete key ->  twg_icon : ", dirUser)
 		js.Del("twg_icon")
 	}
@@ -177,6 +177,13 @@ func IconSettingCheckCommand() (check bool){
 	} else {
 		fmt.Println("iterm-mode/check : false")
 		return
+	}
+}
+
+func IconSettingDeleteCommand() {
+	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg", "img")
+	if err := os.Remove(dir); err != nil {
+	    fmt.Println(err)
 	}
 }
 

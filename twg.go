@@ -112,9 +112,17 @@ func main() {
 						return nil
 					},
 				},
+				cli.Command{
+					Name:   "delete",
+					Usage:   "$ twg set delete # user icon clean",
+					Aliases: []string{"d"},
+					Action:  func(c *cli.Context) error {
+						oauth.IconSettingDeleteCommand()
+						return nil
+					},
+				},
 			},
 		},
-
 	}
 	app.Run(os.Args)
 }
