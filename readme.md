@@ -79,6 +79,9 @@ $ twg t
 # 機能のON/OFFをチェックする
 $ twg set c
 iterm-mode/check false
+
+# 画像アイコンがおかしい場合は`~/.config/twg/img`を削除します。必要なときに再取得されます
+$ twg set d
 ```
 
 `tmux`を使用している場合は、うまく表示できないことがあります。もし端末が乱れた場合は、`reset`コマンドで修正できます。
