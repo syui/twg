@@ -60,27 +60,29 @@ $ export CSKEY=`cat ./config.json| jq -r ".consumer_secret"`
 $ go build -ldflags="-X gitlab.com/syui/twg/oauth.ckey=$CKEY -X gitlab.com/syui/twg/oauth.cskey=$CSKEY"
 ```
 
-
 ## test func 2
 
-設定ファイルを作成して、適時、設定を読み込みます。
+設定ファイルを作成して、適時、設定を読み込みます。この機能は現在テスト中です。
 
-現時点では、作成するユーザーファイルに追記する形で運用しています。
+設定は、上記にある`mac:iTerm`でのみ有効なアイコン表示の設定になります。以下、機能のON/OFFの切替方法と使い方を紹介します。有効にするとオプションの数を少なくできます。
 
-`~/.config/twg/verify.json`
+現時点では、作成するユーザーファイルに追記する形で運用しています。ただし、オプションを実行しない限り新しい設定は追記されません。このファイルはOAuth認証の際に、認証が通っているか確かめるついでにAPIから取得するユーザーのプロファイルです。
 
-設定は、上記にある`iTerm`でのみ有効なアイコン表示の設定です。以下、機能のON/OFFの切替方法と使い方を紹介します。有効にするとオプションの数を少なくできます。
+`~/.config/twg/verify.json` : `twg_icon`
+
+[https://api.twitter.com/1.1/account/verify_credentials.json](https://api.twitter.com/1.1/account/verify_credentials.json)
 
 ```sh
 # 有効にする
 $ twg set true
 $ twg t
+# タイムラインを表示する際にユーザーアイコンも表示される(mac:iTerm限定)
 
 # 無効にする
 $ twg set false
 $ twg t
 
-# チェックする
+# 機能のON/OFFをチェックする
 $ twg set c
 iterm-mode/check false
 ```
