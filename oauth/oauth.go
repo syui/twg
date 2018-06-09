@@ -5,10 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"io"
-	"bytes"
 	"net/url"
-	"net/http"
 	"io/ioutil"
 	"encoding/json"
 	"path/filepath"
@@ -18,7 +15,6 @@ import (
 	"github.com/fatih/color"
 	"github.com/bitly/go-simplejson"
 	"github.com/urfave/cli"
-	//"gitlab.com/syui/twg/icon"
 	//"github.com/hokaccha/go-prettyjson"
 )
 
@@ -203,27 +199,7 @@ func GetOAuthApi() *anaconda.TwitterApi {
 	return api
 }
 
-func GetUserIcon() {
-	var o UserVerifyCredentials
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	dirUser := filepath.Join(dir, "verify.json")
-	file,err := ioutil.ReadFile(dirUser)
-	if err != nil {
-		panic(err)
-	}
-	json.Unmarshal(file, &o)
-	name := o.ScreenName + ".jpg"
-	dirIcon := filepath.Join(dir, name)
-	img, _ := os.Create(dirIcon)
-	defer img.Close()
-	url := o.ProfileImageURL
-	resp, _ := http.Get(url)
-	defer resp.Body.Close()
-	io.Copy(img, resp.Body)
-	f, _ := os.Open(dirIcon)
-	buf := new(bytes.Buffer)
-	io.Copy(buf, f)
-}
+
 
 func RunOAuth() {
 	anaconda.SetConsumerKey(ckey)
@@ -278,7 +254,6 @@ func RunOAuth() {
 
 	bit, err := ioutil.ReadAll(resp.Body)
 	ioutil.WriteFile(dirUser, bit, os.ModePerm)
-	//GetUserIcon()
 	return
 }
 
