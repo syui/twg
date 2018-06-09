@@ -263,12 +263,17 @@ func GetOAuthTimeLine() {
 	v.Set("count","10")
 	v.Set("tweet_mode", "extended")
 	tweets, err := api.GetHomeTimeline(v)
+	blue := color.New(color.FgBlue).SprintFunc()
 	cyan := color.New(color.FgCyan).SprintFunc()
 	if err != nil {
 	  panic(err)
 	}
 	for _, tweet := range tweets {
 		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		tweeturl := tweet.Entities.Urls
+		if  len(tweeturl) != 0 {
+		    fmt.Println(blue(tweeturl[0].Expanded_url))
+		}
 	}
 
 	return
@@ -279,24 +284,29 @@ func RunStream() {
 	v := url.Values{}
 	v.Set("tweet_mode", "extended")
 	s := api.UserStream(v)
+	blue := color.New(color.FgBlue).SprintFunc()
 	cyan := color.New(color.FgCyan).SprintFunc()
-        yellow := color.New(color.FgYellow).SprintFunc()
+	yellow := color.New(color.FgYellow).SprintFunc()
 	for t := range s.C {
-	  switch v := t.(type) {
-	  case anaconda.Tweet:
-	    fmt.Println(cyan(v.User.ScreenName), v.FullText)
-	  case anaconda.EventTweet:
-	    switch v.Event.Event {
-	    case "favorite":
-	      sn := v.Source.ScreenName
-	      tw := v.TargetObject.FullText
-	      fmt.Printf("Favorited by %-15s: %s\n", yellow(sn), tw)
-	    case "unfavorite":
-	      sn := v.Source.ScreenName
-	      tw := v.TargetObject.FullText
-	      fmt.Printf("UnFavorited by %-15s: %s\n", yellow(sn), tw)
-	    }
-	  }
+		switch v := t.(type) {
+		case anaconda.Tweet:
+			fmt.Println(cyan(v.User.ScreenName), v.FullText)
+			tweeturl := v.Entities.Urls
+			if  len(tweeturl) != 0 {
+				fmt.Println(blue(tweeturl[0].Expanded_url))
+			}
+		case anaconda.EventTweet:
+			switch v.Event.Event {
+			case "favorite":
+				sn := v.Source.ScreenName
+				tw := v.TargetObject.FullText
+				fmt.Printf("Favorited by %-15s: %s\n", yellow(sn), tw)
+			case "unfavorite":
+				sn := v.Source.ScreenName
+				tw := v.TargetObject.FullText
+				fmt.Printf("UnFavorited by %-15s: %s\n", yellow(sn), tw)
+			}
+		}
 	}
 	return
 }

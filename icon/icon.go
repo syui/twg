@@ -107,6 +107,7 @@ func ItermGetTimeLine() {
 }
 
 func ItermGetTimeLineOption(c *cli.Context) error {
+	blue := color.New(color.FgBlue).SprintFunc()
 	cyan := color.New(color.FgCyan).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
@@ -129,11 +130,16 @@ func ItermGetTimeLineOption(c *cli.Context) error {
 		GetImage(url, file)
 		ViewImageUser(file)
 		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		tweeturl := tweet.Entities.Urls
+		if  len(tweeturl) != 0 {
+			fmt.Println(blue(tweeturl[0].Expanded_url))
+		}
 	}
 	return nil
 }
 
 func ItermRunStream() {
+	blue := color.New(color.FgBlue).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	v.Set("tweet_mode", "extended")
@@ -150,6 +156,10 @@ func ItermRunStream() {
 		GetImage(url, file)
 		ViewImageUser(file)
 		fmt.Println(cyan(v.User.ScreenName), v.FullText)
+		tweeturl := v.Entities.Urls
+		if  len(tweeturl) != 0 {
+			fmt.Println(blue(tweeturl[0].Expanded_url))
+		}
 	  case anaconda.EventTweet:
 	    switch v.Event.Event {
 	    case "favorite":
