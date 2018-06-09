@@ -182,7 +182,7 @@ func IconSettingCheckCommand() (check bool){
 
 func IconSettingDeleteCommand() {
 	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg", "img")
-	if err := os.Remove(dir); err != nil {
+	if err := os.RemoveAll(dir); err != nil {
 	    fmt.Println(err)
 	}
 }
