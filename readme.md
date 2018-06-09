@@ -60,15 +60,6 @@ $ export CSKEY=`cat ./config.json| jq -r ".consumer_secret"`
 $ go build -ldflags="-X gitlab.com/syui/twg/oauth.ckey=$CKEY -X gitlab.com/syui/twg/oauth.cskey=$CSKEY"
 ```
 
-## test func
-
-テスト機能として、`iTerm`を使ってる場合は、アイコンを表示することができます。
-
-```sh
-$ twg t i
-```
-
-`tmux`を使用している場合は、うまく表示できないことがあります。もし端末が乱れた場合は、`reset`コマンドで修正できます。
 
 ## test func 2
 
@@ -93,6 +84,8 @@ $ twg t
 $ twg set c
 iterm-mode/check false
 ```
+
+`tmux`を使用している場合は、うまく表示できないことがあります。もし端末が乱れた場合は、`reset`コマンドで修正できます。
 
 ## link
 
