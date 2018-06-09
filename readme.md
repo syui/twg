@@ -64,19 +64,13 @@ $ go build -ldflags="-X gitlab.com/syui/twg/oauth.ckey=$CKEY -X gitlab.com/syui/
 
 設定ファイルを作成して、適時、設定を読み込みます。この機能は現在テスト中です。
 
-設定は、上記にある`mac:iTerm`でのみ有効なアイコン表示の設定になります。以下、機能のON/OFFの切替方法と使い方を紹介します。有効にするとオプションの数を少なくできます。
-
-現時点では、作成するユーザーファイルに追記する形で運用しています。ただし、オプションを実行しない限り新しい設定は追記されません。このファイルはOAuth認証の際に、認証が通っているか確かめるついでにAPIから取得するユーザーのプロファイルです。
-
-`~/.config/twg/verify.json` : `twg_icon`
-
-[https://api.twitter.com/1.1/account/verify_credentials.json](https://api.twitter.com/1.1/account/verify_credentials.json)
+設定は、`mac:iTerm`でのみ有効なアイコン表示の設定になります。以下、機能のON/OFFの切替方法と使い方を紹介します。
 
 ```sh
 # 有効にする
 $ twg set true
 $ twg t
-# タイムラインを表示する際にユーザーアイコンも表示される(mac:iTerm限定)
+# タイムラインを表示する際にユーザーアイコンも表示される(mac:iTerm 限定)
 
 # 無効にする
 $ twg set false
@@ -88,6 +82,16 @@ iterm-mode/check false
 ```
 
 `tmux`を使用している場合は、うまく表示できないことがあります。もし端末が乱れた場合は、`reset`コマンドで修正できます。
+
+### config file
+
+設定ファイルは、現時点では、既存のJSONに追記する形で運用しています。
+
+ただし、オプションを実行しない限り設定は追記されません。このファイルはOAuth認証の際に、認証が通っているか確かめるついでにAPIから取得するユーザーのプロファイルになります。
+
+`~/.config/twg/verify.json` : `twg_icon`
+
+[https://api.twitter.com/1.1/account/verify_credentials.json](https://api.twitter.com/1.1/account/verify_credentials.json)
 
 ## link
 
