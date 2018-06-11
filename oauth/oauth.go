@@ -8,18 +8,22 @@ import (
 	"net/url"
 	"io/ioutil"
 	"encoding/json"
-	"path/filepath"
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/mrjones/oauth"
-	"github.com/fatih/color"
 	"github.com/bitly/go-simplejson"
 	"github.com/urfave/cli"
+	"gitlab.com/syui/twg/color"
+	"gitlab.com/syui/twg/path"
 	//"github.com/hokaccha/go-prettyjson"
 )
 
 var ckey string
 var cskey string
+var dir = path.Dir
+var dirVerify = path.DirVerify
+var dirUser = path.DirUser
+var dirImg = path.DirImg
 
 type Oauth struct {
 	AdditionalData struct {
@@ -122,27 +126,25 @@ type UserVerifyCredentials struct {
 func IconSetting(c *cli.Context) error {
 	var o UserVerifyCredentials
 	s := c.Args().First()
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	dirUser := filepath.Join(dir, "verify.json")
-	file,err := ioutil.ReadFile(dirUser)
+	file,err := ioutil.ReadFile(dirVerify)
 	if err != nil {
 		fmt.Printf("$ twg oauth")
 		RunOAuth()
 	}
 	js, err := simplejson.NewJson(file)
 	if s == "true" {
-		fmt.Println("true : ", dirUser)
+		fmt.Println("true : ", dirVerify)
 		js.Set("twg_icon", true)
 	} else if s == "false" || s == "f" {
-		fmt.Println("delete key ->  twg_icon : ", dirUser)
+		fmt.Println("delete key ->  twg_icon : ", dirVerify)
 		js.Del("twg_icon")
 	}
-	w, err := os.Create(dirUser)
+	w, err := os.Create(dirVerify)
 	defer w.Close()
 	out, _ := js.EncodePretty()
 	w.Write(out)
 
-	files,err := ioutil.ReadFile(dirUser)
+	files,err := ioutil.ReadFile(dirVerify)
 	if err != nil {
 		panic(err)
 	}
@@ -153,9 +155,7 @@ func IconSetting(c *cli.Context) error {
 
 func IconSettingCheck() (check bool){
 	var o UserVerifyCredentials
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	dirUser := filepath.Join(dir, "verify.json")
-	file,err := ioutil.ReadFile(dirUser)
+	file,err := ioutil.ReadFile(dirVerify)
 	if err != nil {
 		fmt.Printf("$ twg oauth")
 		RunOAuth()
@@ -181,8 +181,7 @@ func IconSettingCheckCommand() (check bool){
 }
 
 func IconSettingDeleteCommand() {
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg", "img")
-	if err := os.RemoveAll(dir); err != nil {
+	if err := os.RemoveAll(dirImg); err != nil {
 	    fmt.Println(err)
 	}
 }
@@ -191,13 +190,12 @@ func GetOAuthApi() *anaconda.TwitterApi {
 	var o Oauth
 	anaconda.SetConsumerKey(ckey)
 	anaconda.SetConsumerSecret(cskey)
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	dirConf := filepath.Join(dir, "user.json")
-	_, err := os.Stat(dirConf)
+
+	_, err := os.Stat(dirUser)
 	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 		panic(err)
 	}
-	file,err := ioutil.ReadFile(dirConf)
+	file,err := ioutil.ReadFile(dirUser)
 	if err != nil {
 		fmt.Printf("$ twg oauth")
 	}
@@ -206,15 +204,11 @@ func GetOAuthApi() *anaconda.TwitterApi {
 	return api
 }
 
-
-
 func RunOAuth() {
 	anaconda.SetConsumerKey(ckey)
 	anaconda.SetConsumerSecret(cskey)
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	dirConf := filepath.Join(dir, "user.json")
-	dirUser := filepath.Join(dir, "verify.json")
-	_, err := os.Stat(dirConf)
+
+	_, err := os.Stat(dirUser)
 	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 		panic(err)
 	}
@@ -247,7 +241,7 @@ func RunOAuth() {
 	if err != nil {
 		panic(err)
 	}
-	ioutil.WriteFile(dirConf, outputJSON, os.ModePerm)
+	ioutil.WriteFile(dirUser, outputJSON, os.ModePerm)
 	client, err := c.MakeHttpClient(accessToken)
 	if err != nil {
 		log.Fatal(err)
@@ -260,19 +254,16 @@ func RunOAuth() {
 	defer resp.Body.Close()
 
 	bit, err := ioutil.ReadAll(resp.Body)
-	ioutil.WriteFile(dirUser, bit, os.ModePerm)
+	ioutil.WriteFile(dirVerify, bit, os.ModePerm)
 	return
 }
 
 func GetOAuthTimeLine() {
 	api := GetOAuthApi()
 	v := url.Values{}
-	v.Set("count","10")
 	v.Set("tweet_mode", "extended")
+	v.Set("count","10")
 	tweets, err := api.GetHomeTimeline(v)
-	blue := color.New(color.FgBlue).SprintFunc()
-	cyan := color.New(color.FgCyan).SprintFunc()
-	red := color.New(color.FgRed).SprintFunc()
 	if err != nil {
 	  panic(err)
 	}
@@ -281,12 +272,12 @@ func GetOAuthTimeLine() {
 		retweet := tweet.RetweetedStatus
 		if retweet != nil {
 		      rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-		      fmt.Println(cyan(tweet.User.ScreenName), "RT", red(rname), retweet.FullText)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
 		} else {
-		      fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
 		}
 		if  len(tweeturl) != 0 {
-		    fmt.Println(blue(tweeturl[0].Expanded_url))
+		    fmt.Println(color.Blue(tweeturl[0].Expanded_url))
 		}
 	}
 
@@ -298,10 +289,6 @@ func RunStream() {
 	v := url.Values{}
 	v.Set("tweet_mode", "extended")
 	s := api.UserStream(v)
-	blue := color.New(color.FgBlue).SprintFunc()
-	cyan := color.New(color.FgCyan).SprintFunc()
-	yellow := color.New(color.FgYellow).SprintFunc()
-	red := color.New(color.FgRed).SprintFunc()
 	for t := range s.C {
 		switch v := t.(type) {
 		case anaconda.Tweet:
@@ -309,23 +296,23 @@ func RunStream() {
 			retweet := v.RetweetedStatus
 			if retweet != nil {
 			      rname := "@" + v.Entities.User_mentions[0].Screen_name
-			      fmt.Println(cyan(v.User.ScreenName), "RT", red(rname), retweet.FullText)
+			      fmt.Println(color.Cyan(v.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
 			} else {
-			      fmt.Println(cyan(v.User.ScreenName), v.FullText)
+			      fmt.Println(color.Cyan(v.User.ScreenName), v.FullText)
 			}
 			if  len(tweeturl) != 0 {
-				fmt.Println(blue(tweeturl[0].Expanded_url))
+				fmt.Println(color.Blue(tweeturl[0].Expanded_url))
 			}
 		case anaconda.EventTweet:
 			switch v.Event.Event {
 			case "favorite":
 				sn := v.Source.ScreenName
 				tw := v.TargetObject.FullText
-				fmt.Printf("Favorited by %-15s: %s\n", yellow(sn), tw)
+				fmt.Printf("Favorited by %-15s: %s\n", color.Yellow(sn), tw)
 			case "unfavorite":
 				sn := v.Source.ScreenName
 				tw := v.TargetObject.FullText
-				fmt.Printf("UnFavorited by %-15s: %s\n", yellow(sn), tw)
+				fmt.Printf("UnFavorited by %-15s: %s\n", color.Yellow(sn), tw)
 			}
 		}
 	}
@@ -334,19 +321,16 @@ func RunStream() {
 
 func FirstRunOAuth() {
 	var o Oauth
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	dirConf := filepath.Join(dir, "user.json")
-	_, err := os.Stat(dirConf)
+	_, err := os.Stat(dirUser)
 	if err := os.MkdirAll(dir, os.ModePerm); err!= nil {
 		panic(err)
 	}
-	file,err := ioutil.ReadFile(dirConf)
+	file,err := ioutil.ReadFile(dirUser)
 	if err != nil {
 		RunOAuth()
 	} else {
 		json.Unmarshal(file, &o)
-		red := color.New(color.FgRed).SprintFunc()
-		fmt.Printf("login: %s\n", red(o.AdditionalData.ScreenName))
+		fmt.Printf("login: %s\n", color.Red(o.AdditionalData.ScreenName))
 		GetOAuthTimeLine()
 	}
 	return

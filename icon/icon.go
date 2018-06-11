@@ -13,17 +13,24 @@ import (
 	"image/gif"
 	"image/png"
 	"image/jpeg"
-	"gitlab.com/syui/twg/oauth"
 	"github.com/martinlindhe/imgcat/lib"
-	"github.com/fatih/color"
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/urfave/cli"
 	"github.com/nfnt/resize"
+	"gitlab.com/syui/twg/path"
+	"gitlab.com/syui/twg/color"
+	"gitlab.com/syui/twg/oauth"
 )
 
+var dir = path.Dir
+var dirVerify = path.DirVerify
+var dirUser = path.DirUser
+var dirImg = path.DirImg
+//var api = oauth.oauth.GetOAuthApi()
+//var v = url.Values{}
+
 func ViewImageUser(filename string) {
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg", "img")
-	f := filepath.Join(dir, filename)
+	f := filepath.Join(dirImg, filename)
 	file, _ := os.Open(f)
 	imgcat.Cat(file, os.Stdout)
 	return
@@ -34,9 +41,9 @@ func Exists(filename string) bool {
 	return err == nil
 }
 
-func ImageResize(dir string) {
-	pos := filepath.Ext(dir)
-	file, err := os.Open(dir)
+func ImageResize(dirIcon string) {
+	pos := filepath.Ext(dirIcon)
+	file, err := os.Open(dirIcon)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,7 +53,7 @@ func ImageResize(dir string) {
 	}
 	file.Close()
 	m := resize.Resize(20, 20, img, resize.Lanczos3)
-	out, err := os.Create(dir)
+	out, err := os.Create(dirIcon)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -61,17 +68,16 @@ func ImageResize(dir string) {
 }
 
 func GetImage(url string, file string){
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg", "img")
-	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+	if err := os.MkdirAll(dirImg, os.ModePerm); err != nil {
 		panic(err)
 	}
-	dirIcon := filepath.Join(dir, file)
+	dirIcon := filepath.Join(dirImg, file)
 	if b := Exists(dirIcon); b {
 		return
 	}
 	img, _ := os.Create(dirIcon)
 	defer img.Close()
-	fmt.Println(url)
+	//fmt.Println(url, "-> ", dirIcon)
 	resp, _ := http.Get(url)
 	defer resp.Body.Close()
 	io.Copy(img, resp.Body)
@@ -83,9 +89,6 @@ func GetImage(url string, file string){
 }
 
 func ItermGetTimeLine() {
-	blue := color.New(color.FgBlue).SprintFunc()
-	cyan := color.New(color.FgCyan).SprintFunc()
-	red := color.New(color.FgRed).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	v.Set("count","10")
@@ -105,21 +108,18 @@ func ItermGetTimeLine() {
 		retweet := tweet.RetweetedStatus
 		if retweet != nil {
 		      rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-		      fmt.Println(cyan(tweet.User.ScreenName), "RT", red(rname), retweet.FullText)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
 		} else {
-		      fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
 		}
 		if  len(tweeturl) != 0 {
-			fmt.Println(blue(tweeturl[0].Expanded_url))
+			fmt.Println(color.Blue(tweeturl[0].Expanded_url))
 		}
 	}
 	return
 }
 
 func ItermGetTimeLineOption(c *cli.Context) error {
-	blue := color.New(color.FgBlue).SprintFunc()
-	cyan := color.New(color.FgCyan).SprintFunc()
-	red := color.New(color.FgRed).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	s := c.Args().First()
@@ -143,27 +143,23 @@ func ItermGetTimeLineOption(c *cli.Context) error {
 		retweet := tweet.RetweetedStatus
 		if retweet != nil {
 		      rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-		      fmt.Println(cyan(tweet.User.ScreenName), "RT", red(rname), retweet.FullText)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
 		} else {
-		      fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
 		}
 		tweeturl := tweet.Entities.Urls
 		if  len(tweeturl) != 0 {
-			fmt.Println(blue(tweeturl[0].Expanded_url))
+			fmt.Println(color.Blue(tweeturl[0].Expanded_url))
 		}
 	}
 	return nil
 }
 
 func ItermRunStream() {
-	blue := color.New(color.FgBlue).SprintFunc()
-	red := color.New(color.FgRed).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	v.Set("tweet_mode", "extended")
 	s := api.UserStream(v)
-	cyan := color.New(color.FgCyan).SprintFunc()
-        yellow := color.New(color.FgYellow).SprintFunc()
 	for t := range s.C {
 	  switch v := t.(type) {
 	  case anaconda.Tweet:
@@ -177,24 +173,24 @@ func ItermRunStream() {
 		retweet := v.RetweetedStatus
 		if retweet != nil {
 		      rname := "@" + v.Entities.User_mentions[0].Screen_name
-		      fmt.Println(cyan(v.User.ScreenName), "RT", red(rname), retweet.FullText)
+		      fmt.Println(color.Cyan(v.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
 		} else {
-		      fmt.Println(cyan(v.User.ScreenName), v.FullText)
+		      fmt.Println(color.Cyan(v.User.ScreenName), v.FullText)
 		}
 
 		if  len(tweeturl) != 0 {
-			fmt.Println(blue(tweeturl[0].Expanded_url))
+			fmt.Println(color.Blue(tweeturl[0].Expanded_url))
 		}
 	  case anaconda.EventTweet:
 	    switch v.Event.Event {
 	    case "favorite":
 	      sn := v.Source.ScreenName
 	      tw := v.TargetObject.FullText
-	      fmt.Printf("Favorited by %-15s: %s\n", yellow(sn), tw)
+	      fmt.Printf("Favorited by %-15s: %s\n", color.Yellow(sn), tw)
 	    case "unfavorite":
 	      sn := v.Source.ScreenName
 	      tw := v.TargetObject.FullText
-	      fmt.Printf("UnFavorited by %-15s: %s\n", yellow(sn), tw)
+	      fmt.Printf("UnFavorited by %-15s: %s\n", color.Yellow(sn), tw)
 	    }
 	  }
 	}
@@ -202,7 +198,6 @@ func ItermRunStream() {
 }
 
 func ItermUser(c *cli.Context) error {
-	cyan := color.New(color.FgCyan).SprintFunc()
 	name := c.Args().First()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
@@ -219,15 +214,13 @@ func ItermUser(c *cli.Context) error {
 		file := name + pos
 		GetImage(url, file)
 		ViewImageUser(file)
-		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
 	}
 	return nil
 }
 
 func CheckOAuth() (check bool){
-	dir := filepath.Join(os.Getenv("HOME"), ".config", "twg")
-	dirConf := filepath.Join(dir, "user.json")
-	if b := Exists(dirConf); b {
+	if b := Exists(dirVerify); b {
 		check = true
 	} else {
 		check = false

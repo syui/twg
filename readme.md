@@ -96,6 +96,12 @@ $ twg set d
 
 [https://api.twitter.com/1.1/account/verify_credentials.json](https://api.twitter.com/1.1/account/verify_credentials.json)
 
+### type json
+
+```sh
+$ cat ~/.config/twg/verify.json | jq . | gojson
+```
+
 ## link
 
 [https://github.com/syui/twg](https://github.com/syui/twg)
