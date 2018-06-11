@@ -280,8 +280,8 @@ func GetOAuthTimeLine() {
 		tweeturl := tweet.Entities.Urls
 		retweet := tweet.RetweetedStatus
 		if retweet != nil {
-		      rname := tweet.Entities.User_mentions[0].Screen_name
-		      fmt.Println(cyan(tweet.User.ScreenName), red(rname), retweet.FullText)
+		      rname := "@" + tweet.Entities.User_mentions[0].Screen_name
+		      fmt.Println(cyan(tweet.User.ScreenName), "RT", red(rname), retweet.FullText)
 		} else {
 		      fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
 		}
@@ -308,8 +308,8 @@ func RunStream() {
 			tweeturl := v.Entities.Urls
 			retweet := v.RetweetedStatus
 			if retweet != nil {
-			      rname := v.Entities.User_mentions[0].Screen_name
-			      fmt.Println(cyan(v.User.ScreenName), red(rname), retweet.FullText)
+			      rname := "@" + v.Entities.User_mentions[0].Screen_name
+			      fmt.Println(cyan(v.User.ScreenName), "RT", red(rname), retweet.FullText)
 			} else {
 			      fmt.Println(cyan(v.User.ScreenName), v.FullText)
 			}
