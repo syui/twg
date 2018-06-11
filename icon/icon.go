@@ -85,6 +85,7 @@ func GetImage(url string, file string){
 func ItermGetTimeLine() {
 	blue := color.New(color.FgBlue).SprintFunc()
 	cyan := color.New(color.FgCyan).SprintFunc()
+	red := color.New(color.FgRed).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	v.Set("count","10")
@@ -100,8 +101,14 @@ func ItermGetTimeLine() {
 		file := name + pos
 		GetImage(url, file)
 		ViewImageUser(file)
-		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
 		tweeturl := tweet.Entities.Urls
+		retweet := tweet.RetweetedStatus
+		if retweet != nil {
+		      rname := tweet.Entities.User_mentions[0].Screen_name
+		      fmt.Println(cyan(tweet.User.ScreenName), red(rname), retweet.FullText)
+		} else {
+		      fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		}
 		if  len(tweeturl) != 0 {
 			fmt.Println(blue(tweeturl[0].Expanded_url))
 		}
