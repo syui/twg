@@ -24,8 +24,8 @@ func GetTimeLine(c *cli.Context) error {
 	for _, tweet := range tweets {
 	  retweet := tweet.RetweetedStatus
 	  if retweet != nil {
-		rname := tweet.Entities.User_mentions[0].Screen_name
-		fmt.Println(tweet.User.ScreenName, rname, retweet.FullText)
+		rname := "@" + tweet.Entities.User_mentions[0].Screen_name
+		fmt.Println(tweet.User.ScreenName, "RT", rname, retweet.FullText)
 	  } else {
 		fmt.Println(tweet.User.ScreenName, tweet.FullText)
 	  }
