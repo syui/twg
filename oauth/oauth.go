@@ -272,12 +272,19 @@ func GetOAuthTimeLine() {
 	tweets, err := api.GetHomeTimeline(v)
 	blue := color.New(color.FgBlue).SprintFunc()
 	cyan := color.New(color.FgCyan).SprintFunc()
+	red := color.New(color.FgRed).SprintFunc()
 	if err != nil {
 	  panic(err)
 	}
 	for _, tweet := range tweets {
-		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
 		tweeturl := tweet.Entities.Urls
+		retweet := tweet.RetweetedStatus
+		if retweet != nil {
+		      rname := tweet.Entities.User_mentions[0].Screen_name
+		      fmt.Println(cyan(tweet.User.ScreenName), red(rname), retweet.FullText)
+		} else {
+		      fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		}
 		if  len(tweeturl) != 0 {
 		    fmt.Println(blue(tweeturl[0].Expanded_url))
 		}
@@ -294,11 +301,18 @@ func RunStream() {
 	blue := color.New(color.FgBlue).SprintFunc()
 	cyan := color.New(color.FgCyan).SprintFunc()
 	yellow := color.New(color.FgYellow).SprintFunc()
+	red := color.New(color.FgRed).SprintFunc()
 	for t := range s.C {
 		switch v := t.(type) {
 		case anaconda.Tweet:
-			fmt.Println(cyan(v.User.ScreenName), v.FullText)
 			tweeturl := v.Entities.Urls
+			retweet := v.RetweetedStatus
+			if retweet != nil {
+			      rname := v.Entities.User_mentions[0].Screen_name
+			      fmt.Println(cyan(v.User.ScreenName), red(rname), retweet.FullText)
+			} else {
+			      fmt.Println(cyan(v.User.ScreenName), v.FullText)
+			}
 			if  len(tweeturl) != 0 {
 				fmt.Println(blue(tweeturl[0].Expanded_url))
 			}

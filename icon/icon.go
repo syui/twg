@@ -112,6 +112,7 @@ func ItermGetTimeLine() {
 func ItermGetTimeLineOption(c *cli.Context) error {
 	blue := color.New(color.FgBlue).SprintFunc()
 	cyan := color.New(color.FgCyan).SprintFunc()
+	red := color.New(color.FgRed).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	s := c.Args().First()
@@ -132,7 +133,13 @@ func ItermGetTimeLineOption(c *cli.Context) error {
 		file := name + pos
 		GetImage(url, file)
 		ViewImageUser(file)
-		fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		retweet := tweet.RetweetedStatus
+		if retweet != nil {
+		      rname := tweet.Entities.User_mentions[0].Screen_name
+		      fmt.Println(cyan(tweet.User.ScreenName), red(rname), retweet.FullText)
+		} else {
+		      fmt.Println(cyan(tweet.User.ScreenName), tweet.FullText)
+		}
 		tweeturl := tweet.Entities.Urls
 		if  len(tweeturl) != 0 {
 			fmt.Println(blue(tweeturl[0].Expanded_url))
@@ -143,6 +150,7 @@ func ItermGetTimeLineOption(c *cli.Context) error {
 
 func ItermRunStream() {
 	blue := color.New(color.FgBlue).SprintFunc()
+	red := color.New(color.FgRed).SprintFunc()
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	v.Set("tweet_mode", "extended")
@@ -158,8 +166,15 @@ func ItermRunStream() {
 		file := name + pos
 		GetImage(url, file)
 		ViewImageUser(file)
-		fmt.Println(cyan(v.User.ScreenName), v.FullText)
 		tweeturl := v.Entities.Urls
+		retweet := v.RetweetedStatus
+		if retweet != nil {
+		      rname := v.Entities.User_mentions[0].Screen_name
+		      fmt.Println(cyan(v.User.ScreenName), red(rname), retweet.FullText)
+		} else {
+		      fmt.Println(cyan(v.User.ScreenName), v.FullText)
+		}
+
 		if  len(tweeturl) != 0 {
 			fmt.Println(blue(tweeturl[0].Expanded_url))
 		}
