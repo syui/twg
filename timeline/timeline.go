@@ -19,17 +19,20 @@ func GetTimeLine(c *cli.Context) error {
 	v.Set("tweet_mode", "extended")
 	tweets, err := api.GetHomeTimeline(v)
 	if err != nil {
-	  panic(err)
+		panic(err)
 	}
 	for _, tweet := range tweets {
-	  retweet := tweet.RetweetedStatus
-	  if retweet != nil {
-		rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-		fmt.Println(tweet.User.ScreenName, "RT", rname, retweet.FullText)
-	  } else {
-		fmt.Println(tweet.User.ScreenName, tweet.FullText)
-	  }
-
+		retweet := tweet.RetweetedStatus
+		if retweet != nil {
+			rname := "@" + tweet.Entities.User_mentions[0].Screen_name
+			fmt.Println(tweet.User.ScreenName, "RT", rname, retweet.FullText)
+		} else {
+			fmt.Println(tweet.User.ScreenName, tweet.FullText)
+		}
+		tweeturl := tweet.Entities.Urls
+		if  len(tweeturl) != 0 {
+			fmt.Println(tweeturl[0].Expanded_url)
+		}
 	}
 	return nil
 }
