@@ -2,6 +2,8 @@
 
 twitter client (golang)
 
+- 0.3 change key, cannot use the 0.1 ~ 0.2 twitter key.
+
 ## download 
 
 [releases](https://github.com/syui/twg/releases)
@@ -9,7 +11,7 @@ twitter client (golang)
 Download the binary and place it where the path passes.
 
 ```sh
-$ go get -u -v gitlab.com/syui/twg
+$ go get -u -v github.com/syui/twg
 
 # archlinux
 $ curl -SLO https://github.com/syui/twg/releases/download/pre-release/linux_amd64_twg
@@ -25,7 +27,7 @@ $ which twg
 
 ```sh
 # If authentication does not exist, open the browser.
-$ twg
+$ twg o
 
 # timeline
 $ twg
@@ -57,14 +59,14 @@ If you do not use the `releases` version, you will need `consumer_key` etc.
 `config.json` : https://apps.twitter.com/
 
 ```sh
-# go get -u -v gitlab.com/syui/twg
-$ go get -v gitlab.com/syui/twg
+# go get -u -v github.com/syui/twg
+$ go get -v github.com/syui/twg
 $ cd $GOPATH/src/!$
 $ cp ./config.json.example config.json
 $ vim config.json
 $ export CKEY=`cat ./config.json| jq -r ".consumer_key"`
 $ export CSKEY=`cat ./config.json| jq -r ".consumer_secret"`
-$ go build -ldflags="-X gitlab.com/syui/twg/oauth.ckey=$CKEY -X gitlab.com/syui/twg/oauth.cskey=$CSKEY"
+$ go build -ldflags="-X github.com/syui/twg/oauth.ckey=$CKEY -X github.com/syui/twg/oauth.cskey=$CSKEY"
 
 ```
 
@@ -135,8 +137,6 @@ $ cat ~/.config/twg/verify.json | jq . | gojson
 ## link
 
 [https://github.com/syui/twg](https://github.com/syui/twg)
-
-[https://gitlab.com/syui/twg](https://gitlab.com/syui/twg)
 
 [https://aur.archlinux.org/packages/twg](https://aur.archlinux.org/packages/twg)
 

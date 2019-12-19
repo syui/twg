@@ -9,4 +9,5 @@ fi
 
 export CKEY=`cat $f| jq -r ".consumer_key"`
 export CSKEY=`cat $f| jq -r ".consumer_secret"`
-go build -ldflags="-X gitlab.com/syui/twg/oauth.ckey=$CKEY -X gitlab.com/syui/twg/oauth.cskey=$CSKEY"
+echo $CKEY
+go build -ldflags="-X github.com/syui/twg/oauth.ckey=$CKEY -X github.com/syui/twg/oauth.cskey=$CSKEY"
