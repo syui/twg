@@ -1,0 +1,11 @@
+config.json
+oauth/config.json
+twg
+.DS_Store
+build.sh
+test/config.json
+user.json
+linux_386_twg
+linux_amd64_twg
+PKGBUILD.back
+go.sum
