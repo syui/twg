@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-v=0.2
+v=0.3.1
 d=${0:a:h}
 f=$d/PKGBUILD
 a=$d/linux_386_twg

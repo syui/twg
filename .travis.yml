@@ -14,4 +14,4 @@ before_install:
 
 script:
         - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}" -ldflags="-X github.com/syui/twg/oauth.ckey=$CKEY -X github.com/syui/twg/oauth.cskey=$CSKEY"
-        - ghr --username syui --token $GITHUB_TOKEN --replace --debug 0.3 dist/
+        - ghr --username syui --token $GITHUB_TOKEN --replace --debug 0.3.1 dist/
