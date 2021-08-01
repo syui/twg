@@ -50,6 +50,13 @@ $ twg o
 
 # search
 $ twg / "#twitter" 2
+
+# mention,reply
+$ twg m | peco | awk -F ' ' '{print $NF}'
+123456789
+$ twg mm 123456789 "$message"
+or
+$ twg m | peco | awk -F ' ' '{print $NF}' | xargs -I {} twg mm {} "$message"
 ```
 
 ## build

@@ -13,6 +13,8 @@ import (
 	"github.com/syui/twg/account"
 	"github.com/syui/twg/notify"
 	"github.com/syui/twg/search"
+	"github.com/syui/twg/mention"
+	"github.com/syui/twg/mm"
 )
 
 func Action(c *cli.Context) error {
@@ -73,6 +75,18 @@ func Stream(c *cli.Context, o string) error {
 
 func Post(c *cli.Context) error {
 	post.Post(c)
+	return nil
+}
+
+func Mention(c *cli.Context) error {
+	mention.GetMention(c)
+	mention.GetTimeLineId(c)
+	mention.GetUserTimeLineId(c)
+	return nil
+}
+
+func Mm(c *cli.Context) error {
+	mm.Mm(c)
 	return nil
 }
 

@@ -59,6 +59,24 @@ func main() {
 	    },
 	},
 	{
+	    Name:    "mention",
+	    Aliases: []string{"m"},
+	    Usage:   "$ twg m",
+	    Action: func(c *cli.Context) error {
+		cmd.Mention(c)
+		return nil
+	    },
+	},
+{
+	    Name:    "mm",
+	    Aliases: []string{"mm"},
+	    Usage:   "$ twg mm 123456789 'message'",
+	    Action: func(c *cli.Context) error {
+		cmd.Mm(c)
+		return nil
+	    },
+	},
+	{
 	    Name:    "search",
 	    Aliases: []string{"/"},
 	    Usage:   "$ twg / #twitter",
