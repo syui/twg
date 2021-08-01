@@ -22,7 +22,7 @@ func Action(c *cli.Context) error {
 
 func main() {
     app := &cli.App{
-	Version: "0.3.1",
+	Version: "0.4.0",
 	Name: "twg",
 	Usage: "$ twg #timeline",
 	Action: func(c *cli.Context) error {
