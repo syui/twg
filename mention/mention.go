@@ -37,7 +37,7 @@ func GetTimeLineId(c *cli.Context) error {
 		retweet := tweet.RetweetedStatus
 		if retweet != nil {
 			rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, tweet.Id, retweet.InReplyToStatusID)
+			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id, retweet.InReplyToStatusID)
 		} else {
 				fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
 		}
@@ -68,7 +68,7 @@ func GetUserTimeLineId(c *cli.Context) error {
 		}
 		if retweet != nil {
 		      rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id, retweet.InReplyToStatusID)
 		} else {
 		      						fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
 		}
