@@ -159,6 +159,19 @@ $ twg m | peco | awk -F ' ' '{print $(NF -1)}' | xargs -I {} twg f {}
 $ twg r $tweet_id
 ```
 
+## v 0.4.2
+
+```sh
+# tweet id user post
+$ twg m u
+
+# tweet id notify(mention)
+$ twg m n
+
+# tweet id timeline 
+$ twg m t
+```
+
 ## link
 
 [https://github.com/syui/twg](https://github.com/syui/twg)
