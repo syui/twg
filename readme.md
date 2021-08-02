@@ -145,6 +145,18 @@ or
 $ twg m | peco | awk -F ' ' '{print $NF}' | xargs -I {} twg mm {} "$message"
 ```
 
+## v 0.4.1
+
+```sh
+## fav
+$ twg m
+123456789
+$ twg f $tweet_id
+
+## retweet
+$ twg r $tweet_id
+```
+
 ## link
 
 [https://github.com/syui/twg](https://github.com/syui/twg)
