@@ -17,7 +17,7 @@ else
 	s=30
 fi
 
-tmp=`twg m $o $s | peco`
+tmp=`twg m $o $s | peco|tr -d '\n'`
 id=`echo $tmp | awk -F ' ' '{print $(NF -1)}'`
 u=`echo $tmp | awk -F ' ' '{print $1}'`
 
@@ -26,11 +26,12 @@ echo rp $rp
 tw=`echo $id|cut -d ' ' -f 2`
 echo tw $tw
 
-echo message input:
+echo message input
 vim $d/mes.txt
 mes=`cat $d/mes.txt`
 
-echo twg mm $tw "@${u} $mes[y]"
+echo twg mm $tw "@${u} $mes"
+echo "[y]"
 read key
 if [ "$key" = "y" ];then
 	twg mm $tw "@${u} $mes"

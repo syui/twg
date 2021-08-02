@@ -191,6 +191,8 @@ $ twg u syui__ 100 | awk -F ' ' '{print $(NF -1)}'
 $ twg d 123456789
 ```
 
+if there is a line break, use `C+space` in peco to select it.
+
 ## link
 
 [https://github.com/syui/twg](https://github.com/syui/twg)
