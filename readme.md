@@ -140,7 +140,8 @@ $ cat ~/.config/twg/verify.json | jq . | gojson
 # mention, reply
 $ twg m | peco | awk -F ' ' '{print $NF}'
 123456789
-$ twg mm 123456789 "$message"
+# warning : replies to others need to be marked with @user.
+$ twg mm 123456789 "@user $message"
 or
 $ twg m | peco | awk -F ' ' '{print $NF}' | xargs -I {} twg mm {} "$message"
 ```
