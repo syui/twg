@@ -125,6 +125,15 @@ func main() {
 			},
 		},
 		{
+			Name:    "delete",
+			Aliases: []string{"d"},
+			Usage:   "$ twg d $tweet_id",
+			Action: func(c *cli.Context) error {
+				cmd.Del(c)
+				return nil
+			},
+		},
+		{
 			Name:    "search",
 			Aliases: []string{"/"},
 			Usage:   "$ twg / #twitter",

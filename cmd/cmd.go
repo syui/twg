@@ -17,6 +17,7 @@ import (
 	"github.com/syui/twg/mm"
 	"github.com/syui/twg/fav"
 	"github.com/syui/twg/ret"
+	"github.com/syui/twg/del"
 )
 
 func Action(c *cli.Context) error {
@@ -87,6 +88,11 @@ func Fav(c *cli.Context) error {
 
 func Ret(c *cli.Context) error {
 	ret.Ret(c)
+	return nil
+}
+
+func Del(c *cli.Context) error {
+	del.Del(c)
 	return nil
 }
 
