@@ -22,7 +22,7 @@ func Action(c *cli.Context) error {
 
 func main() {
     app := &cli.App{
-	Version: "0.4.0",
+	Version: "0.4.1",
 	Name: "twg",
 	Usage: "$ twg #timeline",
 	Action: func(c *cli.Context) error {
@@ -61,33 +61,51 @@ func main() {
 	{
 	    Name:    "mention",
 	    Aliases: []string{"m"},
-	    Usage:   "$ twg m",
+	    Usage:   "get $tweet_id, $tweet_reply_id\n$ twg m",
 	    Action: func(c *cli.Context) error {
 		cmd.Mention(c)
 		return nil
 	    },
-	},
-{
-	    Name:    "mm",
-	    Aliases: []string{"mm"},
-	    Usage:   "$ twg mm 123456789 'message'",
-	    Action: func(c *cli.Context) error {
-		cmd.Mm(c)
-		return nil
-	    },
-	},
-	{
-	    Name:    "search",
-	    Aliases: []string{"/"},
-	    Usage:   "$ twg / #twitter",
-	    Action: func(c *cli.Context) error {
-		cmd.Search(c)
-		return nil
-	    },
-	},
-	{
-	    Name:    "user",
-	    Aliases: []string{"u"},
+				},
+				{
+					Name:    "mm",
+					Aliases: []string{"mm"},
+					Usage:   "$ twg mm $tweet_rep_id 'message'",
+					Action: func(c *cli.Context) error {
+						cmd.Mm(c)
+						return nil
+					},
+				},
+				{
+					Name:    "fav",
+					Aliases: []string{"f"},
+					Usage:   "$ twg f $tweet_id",
+					Action: func(c *cli.Context) error {
+						cmd.Fav(c)
+						return nil
+					},
+				},
+				{
+					Name:    "retweet",
+					Aliases: []string{"r"},
+					Usage:   "$ twg r $tweet_id",
+					Action: func(c *cli.Context) error {
+						cmd.Ret(c)
+						return nil
+					},
+				},
+				{
+					Name:    "search",
+					Aliases: []string{"/"},
+					Usage:   "$ twg / #twitter",
+					Action: func(c *cli.Context) error {
+						cmd.Search(c)
+						return nil
+					},
+				},
+				{
+					Name:    "user",
+					Aliases: []string{"u"},
 	    Usage:   "$ twg u '$screen_name'",
 	    Action:  func(c *cli.Context) error {
 		cmd.User(c)

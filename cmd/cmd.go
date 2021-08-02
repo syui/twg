@@ -15,6 +15,8 @@ import (
 	"github.com/syui/twg/search"
 	"github.com/syui/twg/mention"
 	"github.com/syui/twg/mm"
+	"github.com/syui/twg/fav"
+	"github.com/syui/twg/ret"
 )
 
 func Action(c *cli.Context) error {
@@ -75,6 +77,16 @@ func Stream(c *cli.Context, o string) error {
 
 func Post(c *cli.Context) error {
 	post.Post(c)
+	return nil
+}
+
+func Fav(c *cli.Context) error {
+	fav.Fav(c)
+	return nil
+}
+
+func Ret(c *cli.Context) error {
+	ret.Ret(c)
 	return nil
 }
 

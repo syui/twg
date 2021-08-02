@@ -24,7 +24,7 @@ func GetMention(c *cli.Context) error {
 		log.Fatal(err)
 	}
 	for _, mention := range mentions {
-		fmt.Println(color.Cyan(mention.User.ScreenName), mention.FullText, mention.InReplyToStatusID)
+		fmt.Println(color.Cyan(mention.User.ScreenName), mention.FullText, mention.Id, mention.InReplyToStatusID)
 	}
 	return nil
 }
@@ -49,7 +49,7 @@ func GetTimeLineId(c *cli.Context) error {
 			rname := "@" + tweet.Entities.User_mentions[0].Screen_name
 			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, tweet.Id, retweet.InReplyToStatusID)
 		} else {
-			fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
+				fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
 		}
 		tweeturl := tweet.Entities.Urls
 		if  len(tweeturl) != 0 {
@@ -89,11 +89,7 @@ func GetUserTimeLineId(c *cli.Context) error {
 		      rname := "@" + tweet.Entities.User_mentions[0].Screen_name
 		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id)
 		} else {
-									if tweet.InReplyToStatusID != 0 {
-		      						fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.InReplyToStatusID)
-								} else {
-		      						fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id)
-								}
+		      						fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
 		}
 		if  len(tweeturl) != 0 {
 			fmt.Println(color.Blue(tweeturl[0].Expanded_url))
