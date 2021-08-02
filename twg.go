@@ -61,10 +61,40 @@ func main() {
 		{
 			Name:    "mention",
 			Aliases: []string{"m"},
-			Usage:   "get $tweet_id, $tweet_reply_id\n$ twg m",
+			HideHelp:        false,
+			Usage:   "$ twg m",
 			Action: func(c *cli.Context) error {
 				cmd.Mention(c)
 				return nil
+			},
+			Subcommands: []*cli.Command {
+				&cli.Command {
+					Name:   "user tweet",
+					Usage:   "$ twg m u",
+					Aliases: []string{"u"},
+					Action:  func(c *cli.Context) error {
+						cmd.MentionUser(c)
+						return nil
+					},
+				},
+				&cli.Command {
+					Name:   "notify tweet",
+					Usage:   "$ twg m n",
+					Aliases: []string{"n"},
+					Action:  func(c *cli.Context) error {
+						cmd.MentionNotify(c)
+						return nil
+					},
+				},
+				&cli.Command {
+					Name:   "TL tweet",
+					Usage:   "$ twg m t",
+					Aliases: []string{"t"},
+					Action:  func(c *cli.Context) error {
+						cmd.MentionTL(c)
+						return nil
+					},
+				},
 			},
 		},
 		{

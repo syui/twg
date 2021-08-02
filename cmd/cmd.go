@@ -91,8 +91,23 @@ func Ret(c *cli.Context) error {
 }
 
 func Mention(c *cli.Context) error {
-	mention.GetMention(c)
+	mention.GetMentionId(c)
 	mention.GetTimeLineId(c)
+	mention.GetUserTimeLineId(c)
+	return nil
+}
+
+func MentionNotify(c *cli.Context) error {
+	mention.GetMentionId(c)
+	return nil
+}
+
+func MentionTL(c *cli.Context) error {
+	mention.GetTimeLineId(c)
+	return nil
+}
+
+func MentionUser(c *cli.Context) error {
 	mention.GetUserTimeLineId(c)
 	return nil
 }

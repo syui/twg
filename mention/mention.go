@@ -9,10 +9,10 @@ import (
 	"github.com/syui/twg/color"
 )
 
-func GetMention(c *cli.Context) error {
+func GetMentionId(c *cli.Context) error {
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
-	v.Set("count","10")
+	v.Set("count","30")
 	v.Set("tweet_mode", "extended")
 	mentions, err := api.GetMentionsTimeline(v)
 	if err != nil {
@@ -54,7 +54,7 @@ func GetUserTimeLineId(c *cli.Context) error {
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
 	v.Set("screen_name",name)
-	v.Set("count","3")
+	v.Set("count","30")
 	tweets, err := api.GetUserTimeline(v)
 	if err != nil {
 	  panic(err)
@@ -78,3 +78,5 @@ func GetUserTimeLineId(c *cli.Context) error {
 	}
 	return nil
 }
+
+
