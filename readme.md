@@ -152,6 +152,8 @@ $ twg m | peco | awk -F ' ' '{print $NF}' | xargs -I {} twg mm {} "$message"
 $ twg m
 123456789
 $ twg f $tweet_id
+or
+$ twg m | peco | awk -F ' ' '{print $(NF -1)}' | xargs -I {} twg f {}
 
 ## retweet
 $ twg r $tweet_id
