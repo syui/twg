@@ -181,6 +181,16 @@ $ twg m t 100
 $ ./bin/twg-mention-peco.zsh 100
 ```
 
+## v 0.4.4
+
+```sh
+# delete tweet
+$ twg u syui__ 100 | awk -F ' ' '{print $(NF -1)}'
+123456789
+
+$ twg d 123456789
+```
+
 ## link
 
 [https://github.com/syui/twg](https://github.com/syui/twg)
