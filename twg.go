@@ -64,7 +64,7 @@ func main() {
 			HideHelp:        false,
 			Usage:   "$ twg m",
 			Action: func(c *cli.Context) error {
-				cmd.Mention(c)
+				cmd.MentionTL(c)
 				return nil
 			},
 			Subcommands: []*cli.Command {

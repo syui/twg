@@ -90,13 +90,6 @@ func Ret(c *cli.Context) error {
 	return nil
 }
 
-func Mention(c *cli.Context) error {
-	mention.GetMentionId(c)
-	mention.GetTimeLineId(c)
-	mention.GetUserTimeLineId(c)
-	return nil
-}
-
 func MentionNotify(c *cli.Context) error {
 	mention.GetMentionId(c)
 	return nil

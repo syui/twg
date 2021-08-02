@@ -12,7 +12,12 @@ import (
 func GetMentionId(c *cli.Context) error {
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
-	v.Set("count","30")
+	s := c.Args().First()
+	if c.NArg() > 0 {
+		v.Set("count",s)
+	} else {
+		v.Set("count","30")
+	}
 	v.Set("tweet_mode", "extended")
 	mentions, err := api.GetMentionsTimeline(v)
 	if err != nil {
@@ -27,7 +32,12 @@ func GetMentionId(c *cli.Context) error {
 func GetTimeLineId(c *cli.Context) error {
 	api := oauth.GetOAuthApi()
 	v := url.Values{}
-	v.Set("count","30")
+	s := c.Args().First()
+	if c.NArg() > 0 {
+		v.Set("count",s)
+	} else {
+		v.Set("count","30")
+	}
 	v.Set("tweet_mode", "extended")
 	tweets, err := api.GetHomeTimeline(v)
 	if err != nil {
@@ -57,7 +67,7 @@ func GetUserTimeLineId(c *cli.Context) error {
 	v.Set("count","30")
 	tweets, err := api.GetUserTimeline(v)
 	if err != nil {
-	  panic(err)
+		panic(err)
 	}
 	for _, tweet := range tweets {
 		tweeturl := tweet.Entities.Urls
@@ -67,10 +77,10 @@ func GetUserTimeLineId(c *cli.Context) error {
 			fmt.Println(color.Blue(tweeturl[0].Expanded_url))
 		}
 		if retweet != nil {
-		      rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id, retweet.InReplyToStatusID)
+			rname := "@" + tweet.Entities.User_mentions[0].Screen_name
+			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id, retweet.InReplyToStatusID)
 		} else {
-		      						fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
+			fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
 		}
 		if  len(tweeturl) != 0 {
 			fmt.Println(color.Blue(tweeturl[0].Expanded_url))
@@ -78,5 +88,4 @@ func GetUserTimeLineId(c *cli.Context) error {
 	}
 	return nil
 }
-
 

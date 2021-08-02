@@ -173,6 +173,14 @@ $ twg m n
 $ twg m t
 ```
 
+## v 0.4.3
+
+```sh
+$ twg m t 100
+
+$ ./bin/twg-mention-peco.zsh 100
+```
+
 ## link
 
 [https://github.com/syui/twg](https://github.com/syui/twg)

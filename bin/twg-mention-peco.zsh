@@ -5,7 +5,13 @@ if ! which twg;then
 	exit
 fi
 
-tmp=`twg m t | peco`
+if [ -n "$1" ];then
+	s=$1
+else
+	s=30
+fi
+
+tmp=`twg m t $s | peco`
 id=`echo $tmp | awk -F ' ' '{print $(NF -1)}'`
 u=`echo $tmp | awk -F ' ' '{print $1}'`
 
