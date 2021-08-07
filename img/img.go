@@ -10,8 +10,11 @@ import (
 	"github.com/syui/twg/color"
 )
 
-
 func ImgPost(c *cli.Context) error {
+	if c.NArg() == 0 {
+		fmt.Println("twg i ~/file/img.jpg $message")
+		os.Exit(0)
+	}
 
 	f := c.Args().First()
 	file, _ := os.Open(f)
@@ -22,20 +25,16 @@ func ImgPost(c *cli.Context) error {
 	file.Read(data)
 	base64String := base64.StdEncoding.EncodeToString(data)
 
-	if c.NArg() > 0 {
-		api := oauth.GetOAuthApi()
-		mes := c.Args().Get(1)
-		media, _ := api.UploadMedia(base64String)
-		v := url.Values{}
-		v.Add("media_ids", media.MediaIDString)
-		v.Set("tweet_mode", "extended")
-		tweet, err := api.PostTweet(mes, v)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
-	} else {
-		fmt.Println("twg i 'message'")
+	api := oauth.GetOAuthApi()
+	mes := c.Args().Get(1)
+	media, _ := api.UploadMedia(base64String)
+	v := url.Values{}
+	v.Add("media_ids", media.MediaIDString)
+	v.Set("tweet_mode", "extended")
+	tweet, err := api.PostTweet(mes, v)
+	if err != nil {
+		panic(err)
 	}
+	fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
 	return nil
 }
