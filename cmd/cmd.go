@@ -18,6 +18,7 @@ import (
 	"github.com/syui/twg/fav"
 	"github.com/syui/twg/ret"
 	"github.com/syui/twg/del"
+	"github.com/syui/twg/img"
 )
 
 func Action(c *cli.Context) error {
@@ -78,6 +79,11 @@ func Stream(c *cli.Context, o string) error {
 
 func Post(c *cli.Context) error {
 	post.Post(c)
+	return nil
+}
+
+func ImgPost(c *cli.Context) error {
+	imgpost.ImgPost(c)
 	return nil
 }
 

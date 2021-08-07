@@ -185,13 +185,23 @@ $ ./bin/twg-mention-peco.zsh 100
 
 ```sh
 # delete tweet
-$ twg u syui__ 100 | awk -F ' ' '{print $(NF -1)}'
+$ twg u syui__ 100 | awk -f ' ' '{print $(nf -1)}'
 123456789
 
 $ twg d 123456789
 ```
 
 if there is a line break, use `C+space` in peco to select it.
+
+## v 0.4.5
+
+```sh
+$ sudo pacman -S libsixel
+$ img2sixel ~/file/img.jpg
+
+# image tweet
+$ twg i ~/file/img.jpg "$message"
+```
 
 ## link
 

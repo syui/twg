@@ -22,7 +22,7 @@ func Action(c *cli.Context) error {
 
 func main() {
 	app := &cli.App{
-		Version: "0.4.4",
+		Version: "0.4.5",
 		Name: "twg",
 		Usage: "$ twg #timeline",
 		Action: func(c *cli.Context) error {
@@ -103,6 +103,15 @@ func main() {
 			Usage:   "$ twg mm $tweet_rep_id 'message'",
 			Action: func(c *cli.Context) error {
 				cmd.Mm(c)
+				return nil
+			},
+		},
+		{
+			Name:    "img",
+			Aliases: []string{"i"},
+			Usage:   "$ twg i ~/img/file.jpg 'message'",
+			Action: func(c *cli.Context) error {
+				cmd.ImgPost(c)
 				return nil
 			},
 		},
