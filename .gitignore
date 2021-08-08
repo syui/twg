@@ -10,3 +10,4 @@ linux_amd64_twg
 PKGBUILD.back
 go.sum
 bin/*.txt
+darwin*
