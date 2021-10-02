@@ -100,7 +100,7 @@ func main() {
 		{
 			Name:    "mm",
 			Aliases: []string{"mm"},
-			Usage:   "$ twg mm $tweet_rep_id 'message'",
+			Usage:   "$ twg mm $tweet_rep_id '@user message';# @userをつけないとmentionにならないので注意",
 			Action: func(c *cli.Context) error {
 				cmd.Mm(c)
 				return nil
