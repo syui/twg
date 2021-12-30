@@ -208,9 +208,15 @@ func ItermUser(c *cli.Context) error {
 		url := tweet.User.ProfileImageURL
 		pos := filepath.Ext(url)
 		file := name + pos
+		rname := "\"@" + name
 		GetImage(url, file)
 		ViewImageUser(file)
 		fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
+		fmt.Println("re:twg mm",color.Red(tweet.Id), color.Cyan(rname), "$message\"")
+		if tweet.InReplyToStatusID != 0 {
+			fmt.Println("sr:twg mm",color.Blue(tweet.InReplyToStatusID), color.Cyan(rname), "$message\"")
+		}
+		fmt.Println("-----------------------------------------")
 	}
 	return nil
 }

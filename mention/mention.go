@@ -24,7 +24,13 @@ func GetMentionId(c *cli.Context) error {
 		log.Fatal(err)
 	}
 	for _, mention := range mentions {
-		fmt.Println(color.Cyan(mention.User.ScreenName), mention.FullText, mention.Id, mention.InReplyToStatusID)
+		rname := "@" + mention.User.ScreenName
+		fmt.Println(color.Cyan(mention.User.ScreenName), mention.FullText)
+		fmt.Println("re:twg mm",color.Red(mention.Id), "\"", color.Cyan(rname), "$message\"")
+		if mention.InReplyToStatusID != 0 {
+			fmt.Println("sr:twg mm",color.Blue(mention.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
+		}
+		fmt.Println("---------------------------------")
 	}
 	return nil
 }
@@ -45,16 +51,25 @@ func GetTimeLineId(c *cli.Context) error {
 	}
 	for _, tweet := range tweets {
 		retweet := tweet.RetweetedStatus
+		rname := "@" + tweet.User.ScreenName
 		if retweet != nil {
-			rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id, retweet.InReplyToStatusID)
+			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
+			fmt.Println("re:twg mm",color.Red(tweet.Id), "\"", color.Cyan(rname), "$message\"")
+			if tweet.InReplyToStatusID != 0 {
+				fmt.Println("sr:twg mm",color.Blue(tweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
+			}
 		} else {
-				fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
+			fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
+			fmt.Println("re:twg mm",color.Red(tweet.Id), "\"", color.Cyan(rname), "$message\"")
+			if tweet.InReplyToStatusID != 0 {
+				fmt.Println("sr:twg mm",color.Blue(tweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
+			}
 		}
 		tweeturl := tweet.Entities.Urls
 		if  len(tweeturl) != 0 {
 			fmt.Println(color.Blue(tweeturl[0].Expanded_url))
 		}
+		fmt.Println("---------------------------------")
 	}
 	return nil
 }
@@ -78,7 +93,11 @@ func GetUserTimeLineId(c *cli.Context) error {
 		}
 		if retweet != nil {
 			rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id, retweet.InReplyToStatusID)
+			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
+			fmt.Println("re:twg mm",color.Red(retweet.Id), "\"", color.Cyan(rname), "$message\"")
+			if retweet.InReplyToStatusID != 0 {
+				fmt.Println("sr:twg mm",color.Blue(retweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
+			}
 		} else {
 			fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
 		}

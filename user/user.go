@@ -31,9 +31,9 @@ func User(c *cli.Context) error {
 		retweet := tweet.RetweetedStatus
 		if retweet != nil {
 		      rname := "@" + tweet.Entities.User_mentions[0].Screen_name
-		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText, retweet.Id, retweet.InReplyToStatusID)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
 		} else {
-		      fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)
+		      fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
 		}
 		if  len(tweeturl) != 0 {
 			fmt.Println(color.Blue(tweeturl[0].Expanded_url))
