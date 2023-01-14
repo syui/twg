@@ -125,6 +125,15 @@ func main() {
 			},
 		},
 		{
+			Name:    "imgp",
+			Aliases: []string{"ii"},
+			Usage:   "$ twg ii ~/img/file.jpg tweet_rep_id",
+			Action: func(c *cli.Context) error {
+				cmd.ImgPostp(c)
+				return nil
+			},
+		},
+		{
 			Name:    "fav",
 			Aliases: []string{"f"},
 			Usage:   "$ twg f $tweet_id",

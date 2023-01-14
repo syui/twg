@@ -20,6 +20,7 @@ import (
 	"github.com/syui/twg/ret"
 	"github.com/syui/twg/del"
 	"github.com/syui/twg/img"
+	"github.com/syui/twg/imgp"
 )
 
 func Action(c *cli.Context) error {
@@ -90,6 +91,11 @@ func Postp(c *cli.Context) error {
 
 func ImgPost(c *cli.Context) error {
 	imgpost.ImgPost(c)
+	return nil
+}
+
+func ImgPostp(c *cli.Context) error {
+	imgpostp.ImgPostp(c)
 	return nil
 }
 
