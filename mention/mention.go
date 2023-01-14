@@ -28,7 +28,7 @@ func GetMentionId(c *cli.Context) error {
 		fmt.Println(color.Cyan(mention.User.ScreenName), mention.FullText)
 		fmt.Println("re:twg mm",color.Red(mention.Id), "\"", color.Cyan(rname), "$message\"")
 		if mention.InReplyToStatusID != 0 {
-			fmt.Println("sr:twg mm",color.Blue(mention.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
+			fmt.Println("src:twg mm",color.Blue(mention.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
 		}
 		fmt.Println("---------------------------------")
 	}
@@ -54,15 +54,15 @@ func GetTimeLineId(c *cli.Context) error {
 		rname := "@" + tweet.User.ScreenName
 		if retweet != nil {
 			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
-			fmt.Println("re:twg mm",color.Red(tweet.Id), "\"", color.Cyan(rname), "$message\"")
+			fmt.Println("Re:twg mm",color.Red(tweet.Id), "\"", color.Cyan(rname), "$message\"")
 			if tweet.InReplyToStatusID != 0 {
-				fmt.Println("sr:twg mm",color.Blue(tweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
+				fmt.Println("src:twg mm",color.Blue(tweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
 			}
 		} else {
 			fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText)
-			fmt.Println("re:twg mm",color.Red(tweet.Id), "\"", color.Cyan(rname), "$message\"")
+			fmt.Println("Re:twg mm",color.Red(tweet.Id), "\"", color.Cyan(rname), "$message\"")
 			if tweet.InReplyToStatusID != 0 {
-				fmt.Println("sr:twg mm",color.Blue(tweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
+				fmt.Println("src:twg mm",color.Blue(tweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
 			}
 		}
 		tweeturl := tweet.Entities.Urls
@@ -94,9 +94,9 @@ func GetUserTimeLineId(c *cli.Context) error {
 		if retweet != nil {
 			rname := "@" + tweet.Entities.User_mentions[0].Screen_name
 			fmt.Println(color.Cyan(tweet.User.ScreenName), "RT", color.Red(rname), retweet.FullText)
-			fmt.Println("re:twg mm",color.Red(retweet.Id), "\"", color.Cyan(rname), "$message\"")
+			fmt.Println("Re:twg mm",color.Red(retweet.Id), "\"", color.Cyan(rname), "$message\"")
 			if retweet.InReplyToStatusID != 0 {
-				fmt.Println("sr:twg mm",color.Blue(retweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
+				fmt.Println("Re(mention):twg mm",color.Blue(retweet.InReplyToStatusID), "\"", color.Cyan(rname), "$message\"")
 			}
 		} else {
 			fmt.Println(color.Cyan(tweet.User.ScreenName), tweet.FullText, tweet.Id, tweet.InReplyToStatusID)

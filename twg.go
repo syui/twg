@@ -22,7 +22,7 @@ func Action(c *cli.Context) error {
 
 func main() {
 	app := &cli.App{
-		Version: "0.4.6",
+		Version: "0.4.7",
 		Name: "twg",
 		Usage: "$ twg #timeline",
 		Action: func(c *cli.Context) error {
@@ -55,6 +55,15 @@ func main() {
 			Usage:   "$ twg p 'message'",
 			Action: func(c *cli.Context) error {
 				cmd.Post(c)
+				return nil
+			},
+		},
+	{
+			Name:    "postp",
+			Aliases: []string{"pp"},
+			Usage:   "$ twg pp 'message'",
+			Action: func(c *cli.Context) error {
+				cmd.Postp(c)
 				return nil
 			},
 		},
@@ -100,7 +109,7 @@ func main() {
 		{
 			Name:    "mm",
 			Aliases: []string{"mm"},
-			Usage:   "$ twg mm $tweet_rep_id '@user message';# @userをつけないとmentionにならないので注意",
+			Usage:   "$ twg mm $tweet_rep_id '@user message';# @userをつけないとmentionにならないので注意/Reで直に返信、srcで元に返信。通常はReのidを使用",
 			Action: func(c *cli.Context) error {
 				cmd.Mm(c)
 				return nil

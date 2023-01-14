@@ -5,6 +5,7 @@ import (
 	"github.com/urfave/cli/v2"
 	"github.com/syui/twg/user"
 	"github.com/syui/twg/post"
+	"github.com/syui/twg/postp"
 	"github.com/syui/twg/timeline"
 	"github.com/syui/twg/icon"
 	"github.com/syui/twg/oauth"
@@ -79,6 +80,11 @@ func Stream(c *cli.Context, o string) error {
 
 func Post(c *cli.Context) error {
 	post.Post(c)
+	return nil
+}
+
+func Postp(c *cli.Context) error {
+	postp.Postp(c)
 	return nil
 }
 

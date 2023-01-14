@@ -26,9 +26,9 @@ func GetNotify(c *cli.Context) error {
 	for _, mention := range mentions {
 		rname := "\"@" + mention.User.ScreenName
 		fmt.Println(color.Cyan(rname), mention.FullText)
-		fmt.Println("re:twg mm",color.Red(mention.Id), color.Cyan(rname), "$message\"")
+		fmt.Println("Re:twg mm",color.Red(mention.Id), color.Cyan(rname), "$message\"")
 		if mention.InReplyToStatusID != 0 {
-			fmt.Println("sr:twg mm",color.Blue(mention.InReplyToStatusID), color.Cyan(rname), "$message\"")
+			fmt.Println("src:twg mm",color.Blue(mention.InReplyToStatusID), color.Cyan(rname), "$message\"")
 		}
 		fmt.Println("-----------------------------------------")
 	}
