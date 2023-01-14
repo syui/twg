@@ -11,8 +11,8 @@ builds:
       - -s -w
       - -X main.Version={{.Version}}
       - -X main.Revision={{.ShortCommit}}
-      - -X github.com/syui/twg/oauth.ckey=${{ secrets.C_KEY }}
-      - -X github.com/syui/twg/oauth.cskey=${{ secrets.CS_KEY }}
+      - -X github.com/syui/twg/oauth.ckey={{ .Env.C_KEY }}
+      - -X github.com/syui/twg/oauth.cskey={{ .Env.CS_KEY }}
     env:
       - CGO_ENABLED=0
 
